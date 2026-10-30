@@ -8,7 +8,7 @@ from parser.verificacion.ebnf import Gramatica
 from parser.verificacion.casos import VALIDOS, INVALIDOS
 
 def main():
-    gramatica = Gramatica(ROOT / 'docs/EBNF.md')
+    gramatica = Gramatica(ROOT / 'docs/Documentacion.md')
     print('Producciones sintacticas:', len(gramatica.reglas))
     print('Referencias, alcance de producciones, terminales y recursion izquierda: OK')
     print('Conflictos LL(1):', gramatica.conflictos)

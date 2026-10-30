@@ -191,7 +191,7 @@ class TestFlujoYASA(unittest.TestCase):
 class TestAuditoria(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.g = Gramatica(ROOT/'docs/EBNF.md')
+        cls.g = Gramatica(ROOT/'docs/Documentacion.md')
 
     def test_unico_conflicto_resoluble_con_barista_y_siguiente(self):
         self.assertEqual(len(self.g.conflictos),1)
