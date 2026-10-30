@@ -24,6 +24,8 @@ class TokenType(Enum):
     RECOLAR = auto()
     EN = auto()
 
+    # Compatibilidad de imports anteriores: ya no se emiten estos dos tokens.
+    # servir y leer son IDENTIFICADOR y se resuelven en el ambiente estandar.
     SERVIR = auto()
     LEER = auto()
     INSERTAR = auto()
@@ -74,6 +76,9 @@ class TokenType(Enum):
     PUNTO_COMA = auto()
     PUNTO = auto()
 
+    # Solo lo agrega la capa de integracion; escanear() conserva su salida.
+    FIN_ARCHIVO = auto()
+
 
 # La EBNF es la base para las palabras reservadas
 # La busqueda distingue entre mayusculas y minusculas
@@ -92,11 +97,8 @@ PALABRAS_RESERVADAS = {
     "chorreando": TokenType.CHORREANDO,
     "recolar": TokenType.RECOLAR,
     "en": TokenType.EN,
-    # La EBNF dice que estas operaciones son  palabras reservadas
-    # Quite estas entradas si la gramatica las define como llamadas
-    # ordinarias a funciones
-    "servir": TokenType.SERVIR,
-    "leer": TokenType.LEER,
+    # Los metodos de lista conservan sus palabras reservadas.
+    # servir y leer se reconocen como identificadores ordinarios.
     "insertar": TokenType.INSERTAR,
     "extraer": TokenType.EXTRAER,
     "buscar": TokenType.BUSCAR,

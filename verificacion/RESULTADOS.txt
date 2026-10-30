@@ -1,0 +1,48 @@
+$ verificacion/verificar_gramatica.py
+Producciones sintacticas: 40
+Referencias, alcance de producciones, terminales y recursion izquierda: OK
+Conflictos LL(1): [('programa', 'programa@9', 0, 1, ['BARISTA'])]
+ACEPTADO: 01_ejercicio.qc
+ACEPTADO: 02_ejercicio.qc
+ACEPTADO: 03_ejercicio.qc
+ACEPTADO: 04_ejercicio.qc
+ACEPTADO: 05_ejercicio.qc
+ACEPTADO: 06_cuantica.qc
+ACEPTADO: 07_ajustes.qc
+7 programas, 10 validos, 17 invalidos y 4 casos fuera del analisis semantico: OK
+
+
+$ -m unittest verificacion.test_integracion -v
+
+test_ebnf_mal_formada_no_se_ignora (verificacion.test_integracion.TestAuditoria.test_ebnf_mal_formada_no_se_ignora) ... ok
+test_no_confundir_categoria_y_lexema (verificacion.test_integracion.TestAuditoria.test_no_confundir_categoria_y_lexema) ... ok
+test_rechazar_gramatica_con_problemas (verificacion.test_integracion.TestAuditoria.test_rechazar_gramatica_con_problemas) ... ok
+test_sintaxis_sin_semantica (verificacion.test_integracion.TestAuditoria.test_sintaxis_sin_semantica) ... ok
+test_unico_conflicto_resoluble_con_barista_y_siguiente (verificacion.test_integracion.TestAuditoria.test_unico_conflicto_resoluble_con_barista_y_siguiente) ... ok
+test_cursor_y_eof_estable (verificacion.test_integracion.TestFlujoYASA.test_cursor_y_eof_estable) ... ok
+test_rangos_y_serializacion_sin_evaluar (verificacion.test_integracion.TestFlujoYASA.test_rangos_y_serializacion_sin_evaluar) ... ok
+test_resultado_y_diagnostico (verificacion.test_integracion.TestFlujoYASA.test_resultado_y_diagnostico) ... ok
+test_secuencia_sin_fin_o_con_fin_duplicado (verificacion.test_integracion.TestFlujoYASA.test_secuencia_sin_fin_o_con_fin_duplicado) ... ok
+test_traspaso_a_receptor_sin_sustituir_scanner (verificacion.test_integracion.TestFlujoYASA.test_traspaso_a_receptor_sin_sustituir_scanner) ... ok
+test_cadena_sin_cerrar_recupera_en_siguiente_linea (verificacion.test_integracion.TestScannerEntrada.test_cadena_sin_cerrar_recupera_en_siguiente_linea) ... ok
+test_cli_directo_y_modulo (verificacion.test_integracion.TestScannerEntrada.test_cli_directo_y_modulo) ... ok
+test_entrada_vacia_y_bom (verificacion.test_integracion.TestScannerEntrada.test_entrada_vacia_y_bom) ... ok
+test_eof_despues_de_ignorables (verificacion.test_integracion.TestScannerEntrada.test_eof_despues_de_ignorables) ... ok
+test_error_no_desaparece_antes_del_parser (verificacion.test_integracion.TestScannerEntrada.test_error_no_desaparece_antes_del_parser) ... ok
+test_errores_y_tokens_originales (verificacion.test_integracion.TestScannerEntrada.test_errores_y_tokens_originales) ... ok
+test_identificadores_y_tipos_heredados (verificacion.test_integracion.TestScannerEntrada.test_identificadores_y_tipos_heredados) ... ok
+test_lf_crlf_y_cr_con_comentarios (verificacion.test_integracion.TestScannerEntrada.test_lf_crlf_y_cr_con_comentarios) ... ok
+test_resultados_esperados (verificacion.test_integracion.TestScannerEntrada.test_resultados_esperados) ... ok
+test_saltos_mezclados (verificacion.test_integracion.TestScannerEntrada.test_saltos_mezclados) ... ok
+test_todos_los_terminales_y_maxima_coincidencia (verificacion.test_integracion.TestScannerEntrada.test_todos_los_terminales_y_maxima_coincidencia) ... ok
+test_valores_no_se_convierten (verificacion.test_integracion.TestScannerEntrada.test_valores_no_se_convierten) ... ok
+test_valores_originales_y_posiciones (verificacion.test_integracion.TestScannerEntrada.test_valores_originales_y_posiciones) ... ok
+
+----------------------------------------------------------------------
+Ran 23 tests in 0.107s
+
+OK
+
+CLI: los siete programas completos se procesaron sin errores lexicos.
+Todos los modulos Python compilan.
+Sin ejecucion de programas, analisis semantico ni generacion de codigo.

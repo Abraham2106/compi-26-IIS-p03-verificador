@@ -6,8 +6,12 @@ Las etapas posteriores pueden reutilizar la lista de tokens.
 
 from typing import List, Optional, Tuple
 
-from errores import ErrorLexico
-from tokens import Token, TokenType, PALABRAS_RESERVADAS , SIMBOLOS_DOBLES, SIMBOLOS_SIMPLES
+if __package__:
+    from .errores import ErrorLexico
+    from .tokens import Token, TokenType, PALABRAS_RESERVADAS, SIMBOLOS_DOBLES, SIMBOLOS_SIMPLES
+else:  # Compatibilidad: python scanner/main.py archivo.qc
+    from errores import ErrorLexico
+    from tokens import Token, TokenType, PALABRAS_RESERVADAS, SIMBOLOS_DOBLES, SIMBOLOS_SIMPLES
 
 LETRAS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
 DIGITOS = "0123456789"
@@ -110,17 +114,20 @@ class Scanner:
     def _avanzar(self) -> str:
         """Consume un caracter y actualiza pos, linea y columna.
 
-        Un salto de linea incrementa la linea y reinicia la columna a 1.
-        El retorno de carro (\\r) no cuenta como columna, asi los finales
-        de linea de Windows (\\r\\n) dan las mismas posiciones que los de Unix.
+        LF, CRLF y CR representan un salto de linea cada uno.
+        Las columnas cuentan caracteres; un tabulador cuenta como uno.
         """
         c = self.fuente[self.pos]
         self.pos += 1
 
-        if c == "\n":
+        if c == "\r":
             self.linea += 1
             self.columna = 1
-        elif c != "\r":
+        elif c == "\n":
+            if self.pos < 2 or self.fuente[self.pos - 2] != "\r":
+                self.linea += 1
+            self.columna = 1
+        else:
             self.columna += 1
 
         return c
@@ -147,7 +154,7 @@ class Scanner:
             if c in " \t\r\n":
                 self._avanzar()
             elif c == "#":
-                while not self._fin() and self._actual() != "\n":
+                while not self._fin() and self._actual() not in "\r\n":
                     self._avanzar()
             else:
                 break

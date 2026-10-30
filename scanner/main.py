@@ -4,9 +4,14 @@ import sys
 from pathlib import Path
 from typing import List, Tuple
 
-from errores import ErrorLexico
-from scanner import Scanner
-from tokens import Token
+if __package__:
+    from .errores import ErrorLexico
+    from .scanner import Scanner
+    from .tokens import Token
+else:
+    from errores import ErrorLexico
+    from scanner import Scanner
+    from tokens import Token
 
 EXTENSION_FUENTE = ".qc"
 CODIFICACION = "utf-8-sig"  

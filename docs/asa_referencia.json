@@ -1,0 +1,159 @@
+{
+  "clase": "Programa",
+  "rango": {
+    "inicio": {
+      "linea": 1,
+      "columna": 1
+    },
+    "fin": {
+      "linea": 1,
+      "columna": 46
+    }
+  },
+  "atributos": {},
+  "hijos": [
+    {
+      "clase": "FuncionPrincipal",
+      "rango": {
+        "inicio": {
+          "linea": 1,
+          "columna": 1
+        },
+        "fin": {
+          "linea": 1,
+          "columna": 46
+        }
+      },
+      "atributos": {
+        "nombre": "chorreador"
+      },
+      "hijos": [
+        {
+          "clase": "Bloque",
+          "rango": {
+            "inicio": {
+              "linea": 1,
+              "columna": 22
+            },
+            "fin": {
+              "linea": 1,
+              "columna": 46
+            }
+          },
+          "atributos": {},
+          "hijos": [
+            {
+              "clase": "DeclaracionLocal",
+              "rango": {
+                "inicio": {
+                  "linea": 1,
+                  "columna": 24
+                },
+                "fin": {
+                  "linea": 1,
+                  "columna": 44
+                }
+              },
+              "atributos": {
+                "nombre": "x",
+                "tipo": "grano"
+              },
+              "hijos": [
+                {
+                  "clase": "Binaria",
+                  "rango": {
+                    "inicio": {
+                      "linea": 1,
+                      "columna": 34
+                    },
+                    "fin": {
+                      "linea": 1,
+                      "columna": 43
+                    }
+                  },
+                  "atributos": {
+                    "operador": "+"
+                  },
+                  "hijos": [
+                    {
+                      "clase": "Literal",
+                      "rango": {
+                        "inicio": {
+                          "linea": 1,
+                          "columna": 34
+                        },
+                        "fin": {
+                          "linea": 1,
+                          "columna": 35
+                        }
+                      },
+                      "atributos": {
+                        "categoria": "ENTERO",
+                        "lexema": "2"
+                      },
+                      "hijos": []
+                    },
+                    {
+                      "clase": "Binaria",
+                      "rango": {
+                        "inicio": {
+                          "linea": 1,
+                          "columna": 38
+                        },
+                        "fin": {
+                          "linea": 1,
+                          "columna": 43
+                        }
+                      },
+                      "atributos": {
+                        "operador": "*"
+                      },
+                      "hijos": [
+                        {
+                          "clase": "Literal",
+                          "rango": {
+                            "inicio": {
+                              "linea": 1,
+                              "columna": 38
+                            },
+                            "fin": {
+                              "linea": 1,
+                              "columna": 39
+                            }
+                          },
+                          "atributos": {
+                            "categoria": "ENTERO",
+                            "lexema": "3"
+                          },
+                          "hijos": []
+                        },
+                        {
+                          "clase": "Literal",
+                          "rango": {
+                            "inicio": {
+                              "linea": 1,
+                              "columna": 42
+                            },
+                            "fin": {
+                              "linea": 1,
+                              "columna": 43
+                            }
+                          },
+                          "atributos": {
+                            "categoria": "ENTERO",
+                            "lexema": "4"
+                          },
+                          "hijos": []
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
