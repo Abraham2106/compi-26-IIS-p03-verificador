@@ -160,9 +160,9 @@ reconocibles. Que sean semanticamente admisibles queda fuera de esta etapa.
 contratos de biblioteca no se codifican como producciones especiales.
 
 La interfaz de entrada y el esquema de nodos se describen en
-[INTERFAZ_PARSER_ASA.md](../docs/INTERFAZ_PARSER_ASA.md). Las decisiones
-semanticas de la revision anterior quedan archivadas como antecedentes en
-`docs/DISENO_SEMANTICO_PREVIO.md`, fuera de los criterios de esta tarea.
+[INTERFAZ_PARSER_ASA.md](INTERFAZ_PARSER_ASA.md). Las decisiones semanticas de
+la revision anterior quedan archivadas como antecedentes en
+`DISENO_SEMANTICO_PREVIO.md`, fuera de los criterios de esta tarea.
 
 ## 9. Repeticiones y analisis descendente
 

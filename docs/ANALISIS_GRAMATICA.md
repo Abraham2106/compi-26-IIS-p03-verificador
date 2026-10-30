@@ -1,6 +1,6 @@
 # Auditoria formal de la gramatica
 
-Generado a partir de `gramatica/EBNF.md` y de los catalogos reales del scanner.
+Generado a partir de `EBNF.md` y de los catalogos reales del scanner.
 Los no terminales auxiliares de EBNF se expanden a BNF para calcular FIRST, FOLLOW y SELECT.
 `EPSILON` significa entrada vacia. `FIN_ARCHIVO` pertenece al adaptador, no a las reglas lexicas.
 
@@ -132,4 +132,4 @@ Estas comprobaciones no constituyen una demostracion general de no ambiguedad.
 
 `servir` y `leer` se reconocen como IDENTIFICADOR. Los miembros SERVIR y LEER
 del enum son heredados y no deben esperarse en la salida actual.
-FIN_ARCHIVO se agrega una sola vez en `integracion/entrada.py`.
+FIN_ARCHIVO se agrega una sola vez en `parser/integracion/entrada.py`.

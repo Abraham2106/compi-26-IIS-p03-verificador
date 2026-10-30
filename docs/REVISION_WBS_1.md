@@ -58,11 +58,11 @@ Los FIRST/FOLLOW y el catalogo de tokens estan en `ANALISIS_GRAMATICA.md`.
 Desde la raiz del proyecto, con Python 3.9 o posterior y sin instalar paquetes:
 
 ```bash
-python verificacion/verificar_gramatica.py
-python -m unittest verificacion.test_integracion -v
+python -m parser.verificacion.verificar_gramatica
+python -m unittest parser.verificacion.test_integracion -v
 ```
 
-Las salidas de la ultima ejecucion estan en `verificacion/RESULTADOS.txt`.
+Las salidas de la ultima ejecucion estan en `RESULTADOS_VERIFICACION.txt`.
 El reconocimiento de pruebas no es el parser del proyecto, y el JSON es un
 ejemplo de contrato construido expresamente, no un ASA extraido por ese parser.
 No se afirma que ya se ejecuto una integracion con los componentes de los
@@ -80,9 +80,9 @@ para esa coordinacion, pero no inventa su aprobacion ni envia mensajes al equipo
 
 ## Archivos de inicio para cada responsable
 
-- Parser: `gramatica/EBNF.md`, `docs/ANALISIS_GRAMATICA.md`,
-  `integracion/entrada.py` y `integracion/contratos.py`.
-- ASA/representacion: `docs/INTERFAZ_PARSER_ASA.md`,
-  `integracion/contratos.py` y `docs/asa_referencia.json`.
-- Integracion y pruebas: `verificacion/test_integracion.py` y los siete
-  archivos de `ejemplos_completos/`.
+- Parser: `EBNF.md`, `ANALISIS_GRAMATICA.md`, `parser/integracion/entrada.py`
+  y `parser/integracion/contratos.py`.
+- ASA/representacion: `INTERFAZ_PARSER_ASA.md`,
+  `parser/integracion/contratos.py` y `asa_referencia.json`.
+- Integracion y pruebas: `parser/verificacion/test_integracion.py` y los siete
+  archivos de `parser/ejemplos_completos/`.

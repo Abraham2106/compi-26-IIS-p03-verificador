@@ -1,4 +1,4 @@
-$ verificacion/verificar_gramatica.py
+$ python -m parser.verificacion.verificar_gramatica
 Producciones sintacticas: 40
 Referencias, alcance de producciones, terminales y recursion izquierda: OK
 Conflictos LL(1): [('programa', 'programa@9', 0, 1, ['BARISTA'])]
@@ -12,7 +12,7 @@ ACEPTADO: 07_ajustes.qc
 7 programas, 10 validos, 17 invalidos y 4 casos fuera del analisis semantico: OK
 
 
-$ -m unittest verificacion.test_integracion -v
+$ python -m unittest parser.verificacion.test_integracion -v
 
 test_ebnf_mal_formada_no_se_ignora (verificacion.test_integracion.TestAuditoria.test_ebnf_mal_formada_no_se_ignora) ... ok
 test_no_confundir_categoria_y_lexema (verificacion.test_integracion.TestAuditoria.test_no_confundir_categoria_y_lexema) ... ok

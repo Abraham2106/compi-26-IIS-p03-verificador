@@ -1,7 +1,7 @@
 # Ajustes de gramatica de Quantum Coffee
 
 Nota de version: este archivo explica la correccion previa. La nueva revision
-para la tarea 1 de la etapa 3 esta en `docs/REVISION_WBS_1.md`. Ese informe y
+para la tarea 1 de la etapa 3 esta en `REVISION_WBS_1.md`. Ese informe y
 la interfaz compartida prevalecen sobre los conteos y descripciones anteriores.
 
 ## Que se cambio
@@ -12,7 +12,7 @@ No habia un archivo de gramatica sintactica completa en el ZIP del scanner.
 
 | Parte | Ajuste | Compatibilidad |
 | --- | --- | --- |
-| Gramatica oficial | `gramatica/EBNF.md` contiene la version completa y unificada. | Conserva tipos, globales, funciones, ciclos, listas y extension cuantica. |
+| Gramatica oficial | `EBNF.md` contiene la version completa y unificada. | Conserva tipos, globales, funciones, ciclos, listas y extension cuantica. |
 | Ambiente estandar | `servir` y `leer` pasan a ser identificadores y llamadas regulares. | Los programas se escriben igual; cambian los nombres de esos dos tokens. |
 | Numeros | Se agregan signos unarios antes de un factor. | Acepta negativos y expresiones como `-(a+b)` sin cambiar el reconocimiento numerico. |
 | Logica | Se permite repetir `Amargo`. | Los casos con cero o una negacion siguen siendo validos. |
@@ -45,10 +45,10 @@ parentesis, no depender de esos dos miembros.
 Ejecutar desde la raiz:
 
 ```bash
-python verificacion/verificar_gramatica.py
+python -m parser.verificacion.verificar_gramatica
 ```
 
-El verificador lee las producciones de `gramatica/EBNF.md`, usa el scanner
+El verificador lee las producciones de `EBNF.md`, usa el scanner
 real y comprueba:
 
 - Referencias a producciones definidas y ausencia de recursion por la izquierda.
@@ -66,7 +66,7 @@ lexemas, posiciones y errores; solo cambio la clasificacion de servir/leer.
 
 Los archivos de `scanner/ejemplos/` son pruebas lexicas; algunos contienen
 fragmentos de programa o errores intencionales. Para probar programas
-sintacticamente completos, usar `ejemplos_completos/`.
+sintacticamente completos, usar `parser/ejemplos_completos/`.
 
 ## Alcance
 

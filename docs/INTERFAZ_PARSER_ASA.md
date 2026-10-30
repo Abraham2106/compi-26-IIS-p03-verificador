@@ -1,6 +1,6 @@
 # Interfaz scanner - parser - ASA
 
-Estado: contrato tecnico propuesto, implementado en `integracion/` y probado.
+Estado: contrato tecnico propuesto, implementado en `parser/integracion/` y probado.
 Falta que las personas responsables del parser y del ASA lo acepten o acuerden
 sus ajustes. No se afirma que ya hubo una reunion o un acuerdo del equipo.
 
@@ -10,7 +10,7 @@ Usar imports desde la raiz del proyecto, sin copiar el scanner ni crear otro enu
 
 ```python
 from scanner import Scanner, Token, TokenType, ErrorLexico
-from integracion import explorar_para_parser, FlujoTokens
+from parser.integracion import explorar_para_parser, FlujoTokens
 
 entrada = explorar_para_parser(fuente)
 if entrada.apta:

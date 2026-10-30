@@ -1,21 +1,21 @@
 """Verifica sintaxis con los tokens reales; no sustituye el futuro parser."""
 import sys
 from pathlib import Path
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
-from integracion import explorar_para_parser
-from verificacion.ebnf import Gramatica
-from verificacion.casos import VALIDOS, INVALIDOS
+from parser.integracion import explorar_para_parser
+from parser.verificacion.ebnf import Gramatica
+from parser.verificacion.casos import VALIDOS, INVALIDOS
 
 def main():
-    gramatica = Gramatica(ROOT / 'gramatica/EBNF.md')
+    gramatica = Gramatica(ROOT / 'docs/EBNF.md')
     print('Producciones sintacticas:', len(gramatica.reglas))
     print('Referencias, alcance de producciones, terminales y recursion izquierda: OK')
     print('Conflictos LL(1):', gramatica.conflictos)
     assert len(gramatica.conflictos) == 1, gramatica.conflictos
     assert gramatica.conflictos[0][0] == 'programa'
     assert gramatica.conflictos[0][4] == ['BARISTA']
-    for path in sorted((ROOT / 'ejemplos_completos').glob('*.qc')):
+    for path in sorted((ROOT / 'parser/ejemplos_completos').glob('*.qc')):
         entrada = explorar_para_parser(path.read_text(encoding='utf-8-sig'))
         assert entrada.apta and gramatica.acepta(entrada.tokens), path.name
         print('ACEPTADO:', path.name)

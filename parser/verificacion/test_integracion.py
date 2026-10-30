@@ -7,16 +7,16 @@ import sys
 import tempfile
 import unittest
 
-from integracion import (
+from parser.integracion import (
     ClaseNodo, ErrorSintactico, FlujoTokens, NodoASA, Posicion,
     RangoFuente, ResultadoParseo, explorar_para_parser,
 )
-from integracion.entrada import EntradaConErroresLexicos
+from parser.integracion.entrada import EntradaConErroresLexicos
 from scanner import Scanner, Token, TokenType
 from scanner.tokens import PALABRAS_RESERVADAS, SIMBOLOS_DOBLES, SIMBOLOS_SIMPLES
-from verificacion.ebnf import Gramatica, produccion
+from parser.verificacion.ebnf import Gramatica, produccion
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[2]
 
 
 class TestScannerEntrada(unittest.TestCase):
@@ -191,7 +191,7 @@ class TestFlujoYASA(unittest.TestCase):
 class TestAuditoria(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.g = Gramatica(ROOT/'gramatica/EBNF.md')
+        cls.g = Gramatica(ROOT/'docs/EBNF.md')
 
     def test_unico_conflicto_resoluble_con_barista_y_siguiente(self):
         self.assertEqual(len(self.g.conflictos),1)
