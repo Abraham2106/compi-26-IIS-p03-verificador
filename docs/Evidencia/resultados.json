@@ -1,0 +1,537 @@
+{
+  "python": "3.12.14",
+  "resultados": [
+    {
+      "id": "V01",
+      "grupo": "validos",
+      "objetivo": "Principal minimo",
+      "aceptar": true,
+      "archivo": "parser/pruebas_6_2_6_3/validos/V01.qc",
+      "correcto_obtenido": true,
+      "errores_lexicos": [],
+      "diagnosticos": [],
+      "problemas": [],
+      "pasa": true
+    },
+    {
+      "id": "V02",
+      "grupo": "validos",
+      "objetivo": "Tipos y literales",
+      "aceptar": true,
+      "archivo": "parser/pruebas_6_2_6_3/validos/V02.qc",
+      "correcto_obtenido": true,
+      "errores_lexicos": [],
+      "diagnosticos": [],
+      "problemas": [],
+      "pasa": true
+    },
+    {
+      "id": "V03",
+      "grupo": "validos",
+      "objetivo": "Aritmetica y signos",
+      "aceptar": true,
+      "archivo": "parser/pruebas_6_2_6_3/validos/V03.qc",
+      "correcto_obtenido": true,
+      "errores_lexicos": [],
+      "diagnosticos": [],
+      "problemas": [],
+      "pasa": true
+    },
+    {
+      "id": "V04",
+      "grupo": "validos",
+      "objetivo": "Comparaciones y logica",
+      "aceptar": true,
+      "archivo": "parser/pruebas_6_2_6_3/validos/V04.qc",
+      "correcto_obtenido": true,
+      "errores_lexicos": [],
+      "diagnosticos": [],
+      "problemas": [],
+      "pasa": true
+    },
+    {
+      "id": "V05",
+      "grupo": "validos",
+      "objetivo": "Listas y metodos",
+      "aceptar": true,
+      "archivo": "parser/pruebas_6_2_6_3/validos/V05.qc",
+      "correcto_obtenido": true,
+      "errores_lexicos": [],
+      "diagnosticos": [],
+      "problemas": [],
+      "pasa": true
+    },
+    {
+      "id": "V06",
+      "grupo": "validos",
+      "objetivo": "Entrada salida y asignacion",
+      "aceptar": true,
+      "archivo": "parser/pruebas_6_2_6_3/validos/V06.qc",
+      "correcto_obtenido": true,
+      "errores_lexicos": [],
+      "diagnosticos": [],
+      "problemas": [],
+      "pasa": true
+    },
+    {
+      "id": "V07",
+      "grupo": "validos",
+      "objetivo": "Condicional con alternativa",
+      "aceptar": true,
+      "archivo": "parser/pruebas_6_2_6_3/validos/V07.qc",
+      "correcto_obtenido": true,
+      "errores_lexicos": [],
+      "diagnosticos": [],
+      "problemas": [],
+      "pasa": true
+    },
+    {
+      "id": "V08",
+      "grupo": "validos",
+      "objetivo": "Condicional sin alternativa",
+      "aceptar": true,
+      "archivo": "parser/pruebas_6_2_6_3/validos/V08.qc",
+      "correcto_obtenido": true,
+      "errores_lexicos": [],
+      "diagnosticos": [],
+      "problemas": [],
+      "pasa": true
+    },
+    {
+      "id": "V09",
+      "grupo": "validos",
+      "objetivo": "Ciclos anidados",
+      "aceptar": true,
+      "archivo": "parser/pruebas_6_2_6_3/validos/V09.qc",
+      "correcto_obtenido": true,
+      "errores_lexicos": [],
+      "diagnosticos": [],
+      "problemas": [],
+      "pasa": true
+    },
+    {
+      "id": "V10",
+      "grupo": "validos",
+      "objetivo": "Extension cuantica",
+      "aceptar": true,
+      "archivo": "parser/pruebas_6_2_6_3/validos/V10.qc",
+      "correcto_obtenido": true,
+      "errores_lexicos": [],
+      "diagnosticos": [],
+      "problemas": [],
+      "pasa": true
+    },
+    {
+      "id": "V11",
+      "grupo": "validos",
+      "objetivo": "Retornos",
+      "aceptar": true,
+      "archivo": "parser/pruebas_6_2_6_3/validos/V11.qc",
+      "correcto_obtenido": true,
+      "errores_lexicos": [],
+      "diagnosticos": [],
+      "problemas": [],
+      "pasa": true
+    },
+    {
+      "id": "V12",
+      "grupo": "validos",
+      "objetivo": "Sintaxis sin comprobacion semantica",
+      "aceptar": true,
+      "archivo": "parser/pruebas_6_2_6_3/validos/V12.qc",
+      "correcto_obtenido": true,
+      "errores_lexicos": [],
+      "diagnosticos": [],
+      "problemas": [],
+      "pasa": true
+    },
+    {
+      "id": "V13",
+      "grupo": "validos",
+      "objetivo": "Globales funciones parametros y llamadas",
+      "aceptar": true,
+      "archivo": "parser/pruebas_6_2_6_3/validos/V13.qc",
+      "correcto_obtenido": true,
+      "errores_lexicos": [],
+      "diagnosticos": [],
+      "problemas": [],
+      "pasa": true
+    },
+    {
+      "id": "I01",
+      "grupo": "invalidos",
+      "objetivo": "Programa vacio",
+      "aceptar": false,
+      "archivo": "parser/pruebas_6_2_6_3/invalidos/I01.qc",
+      "correcto_obtenido": false,
+      "errores_lexicos": [],
+      "diagnosticos": [
+        "Falta la funcion principal 'barista chorreador()' al final del programa"
+      ],
+      "problemas": [],
+      "pasa": true
+    },
+    {
+      "id": "I02",
+      "grupo": "invalidos",
+      "objetivo": "Falta principal",
+      "aceptar": false,
+      "archivo": "parser/pruebas_6_2_6_3/invalidos/I02.qc",
+      "correcto_obtenido": false,
+      "errores_lexicos": [],
+      "diagnosticos": [
+        "Falta la funcion principal 'barista chorreador()' al final del programa"
+      ],
+      "problemas": [],
+      "pasa": true
+    },
+    {
+      "id": "I03",
+      "grupo": "invalidos",
+      "objetivo": "Principal duplicado",
+      "aceptar": false,
+      "archivo": "parser/pruebas_6_2_6_3/invalidos/I03.qc",
+      "correcto_obtenido": false,
+      "errores_lexicos": [],
+      "diagnosticos": [
+        "Despues de 'barista chorreador' no puede haber mas codigo; se encontro 'barista'"
+      ],
+      "problemas": [],
+      "pasa": true
+    },
+    {
+      "id": "I04",
+      "grupo": "invalidos",
+      "objetivo": "Parametros en principal",
+      "aceptar": false,
+      "archivo": "parser/pruebas_6_2_6_3/invalidos/I04.qc",
+      "correcto_obtenido": false,
+      "errores_lexicos": [],
+      "diagnosticos": [
+        "Linea 1, columna 20: Se esperaba PARENTESIS_CIERRA, pero se encontro GRANO ('grano') al analizar funcion principal"
+      ],
+      "problemas": [],
+      "pasa": true
+    },
+    {
+      "id": "I05",
+      "grupo": "invalidos",
+      "objetivo": "Codigo despues de principal",
+      "aceptar": false,
+      "archivo": "parser/pruebas_6_2_6_3/invalidos/I05.qc",
+      "correcto_obtenido": false,
+      "errores_lexicos": [],
+      "diagnosticos": [
+        "Despues de 'barista chorreador' no puede haber mas codigo; se encontro 'cafeteria'"
+      ],
+      "problemas": [],
+      "pasa": true
+    },
+    {
+      "id": "I06",
+      "grupo": "invalidos",
+      "objetivo": "Falta punto y coma",
+      "aceptar": false,
+      "token_error": "LLAVE_CIERRA",
+      "archivo": "parser/pruebas_6_2_6_3/invalidos/I06.qc",
+      "correcto_obtenido": false,
+      "errores_lexicos": [],
+      "diagnosticos": [
+        "Linea 3, columna 1: Se esperaba PUNTO_COMA, pero se encontro LLAVE_CIERRA ('}') al analizar declaracion de variable"
+      ],
+      "problemas": [],
+      "pasa": true
+    },
+    {
+      "id": "I07",
+      "grupo": "invalidos",
+      "objetivo": "Falta inicializador",
+      "aceptar": false,
+      "token_error": "PUNTO_COMA",
+      "archivo": "parser/pruebas_6_2_6_3/invalidos/I07.qc",
+      "correcto_obtenido": false,
+      "errores_lexicos": [],
+      "diagnosticos": [
+        "Linea 2, columna 13: Se esperaba ENTERO o DECIMAL o CADENA o FUERTE o RALO o DESCAFEINADO o SE_QUEMO_EL_CAFE o CORCHETE_ABRE o IDENTIFICADOR o MEDIR o PARENTESIS_ABRE o AMARGO o SUMA o RESTA, pero se encontro PUNTO_COMA (';') al analizar expresion"
+      ],
+      "problemas": [],
+      "pasa": true
+    },
+    {
+      "id": "I08",
+      "grupo": "invalidos",
+      "objetivo": "Falta operando",
+      "aceptar": false,
+      "token_error": "PUNTO_COMA",
+      "archivo": "parser/pruebas_6_2_6_3/invalidos/I08.qc",
+      "correcto_obtenido": false,
+      "errores_lexicos": [],
+      "diagnosticos": [
+        "Linea 2, columna 15: Se esperaba ENTERO o DECIMAL o CADENA o FUERTE o RALO o DESCAFEINADO o SE_QUEMO_EL_CAFE o CORCHETE_ABRE o IDENTIFICADOR o MEDIR o PARENTESIS_ABRE o AMARGO o SUMA o RESTA, pero se encontro PUNTO_COMA (';') al analizar expresion"
+      ],
+      "problemas": [],
+      "pasa": true
+    },
+    {
+      "id": "I09",
+      "grupo": "invalidos",
+      "objetivo": "Falta parentesis",
+      "aceptar": false,
+      "token_error": "PUNTO_COMA",
+      "archivo": "parser/pruebas_6_2_6_3/invalidos/I09.qc",
+      "correcto_obtenido": false,
+      "errores_lexicos": [],
+      "diagnosticos": [
+        "Linea 2, columna 13: Se esperaba PARENTESIS_CIERRA o COMA, pero se encontro PUNTO_COMA (';') al analizar argumentos de llamada"
+      ],
+      "problemas": [],
+      "pasa": true
+    },
+    {
+      "id": "I10",
+      "grupo": "invalidos",
+      "objetivo": "Falta cierre de lista",
+      "aceptar": false,
+      "token_error": "PUNTO_COMA",
+      "archivo": "parser/pruebas_6_2_6_3/invalidos/I10.qc",
+      "correcto_obtenido": false,
+      "errores_lexicos": [],
+      "diagnosticos": [
+        "Linea 2, columna 22: Se esperaba CORCHETE_CIERRA o COMA, pero se encontro PUNTO_COMA (';') al analizar arreglo"
+      ],
+      "problemas": [],
+      "pasa": true
+    },
+    {
+      "id": "I11",
+      "grupo": "invalidos",
+      "objetivo": "Coma final en lista",
+      "aceptar": false,
+      "token_error": "CORCHETE_CIERRA",
+      "archivo": "parser/pruebas_6_2_6_3/invalidos/I11.qc",
+      "correcto_obtenido": false,
+      "errores_lexicos": [],
+      "diagnosticos": [
+        "Linea 2, columna 21: Se esperaba ENTERO o DECIMAL o CADENA o FUERTE o RALO o DESCAFEINADO o SE_QUEMO_EL_CAFE o CORCHETE_ABRE o IDENTIFICADOR o MEDIR o PARENTESIS_ABRE o AMARGO o SUMA o RESTA, pero se encontro CORCHETE_CIERRA (']') al analizar expresion"
+      ],
+      "problemas": [],
+      "pasa": true
+    },
+    {
+      "id": "I12",
+      "grupo": "invalidos",
+      "objetivo": "Coma final en llamada",
+      "aceptar": false,
+      "token_error": "PARENTESIS_CIERRA",
+      "archivo": "parser/pruebas_6_2_6_3/invalidos/I12.qc",
+      "correcto_obtenido": false,
+      "errores_lexicos": [],
+      "diagnosticos": [
+        "Linea 2, columna 9: Se esperaba ENTERO o DECIMAL o CADENA o FUERTE o RALO o DESCAFEINADO o SE_QUEMO_EL_CAFE o CORCHETE_ABRE o IDENTIFICADOR o MEDIR o PARENTESIS_ABRE o AMARGO o SUMA o RESTA, pero se encontro PARENTESIS_CIERRA (')') al analizar expresion"
+      ],
+      "problemas": [],
+      "pasa": true
+    },
+    {
+      "id": "I13",
+      "grupo": "invalidos",
+      "objetivo": "Asignacion en condicion",
+      "aceptar": false,
+      "token_error": "ASIGNACION",
+      "archivo": "parser/pruebas_6_2_6_3/invalidos/I13.qc",
+      "correcto_obtenido": false,
+      "errores_lexicos": [],
+      "diagnosticos": [
+        "Linea 2, columna 13: Se esperaba PARENTESIS_CIERRA, pero se encontro ASIGNACION ('=') al analizar condicional",
+        "Despues de 'barista chorreador' no puede haber mas codigo; se encontro '}'"
+      ],
+      "problemas": [],
+      "pasa": true
+    },
+    {
+      "id": "I14",
+      "grupo": "invalidos",
+      "objetivo": "Comparacion encadenada",
+      "aceptar": false,
+      "token_error": "MENOR",
+      "archivo": "parser/pruebas_6_2_6_3/invalidos/I14.qc",
+      "correcto_obtenido": false,
+      "errores_lexicos": [],
+      "diagnosticos": [
+        "No se admiten comparaciones encadenadas; use 'a < b ConAzucar b < c'",
+        "Despues de 'barista chorreador' no puede haber mas codigo; se encontro '}'"
+      ],
+      "problemas": [],
+      "pasa": true
+    },
+    {
+      "id": "I15",
+      "grupo": "invalidos",
+      "objetivo": "Alternativa sin condicional",
+      "aceptar": false,
+      "token_error": "ENFRIA",
+      "archivo": "parser/pruebas_6_2_6_3/invalidos/I15.qc",
+      "correcto_obtenido": false,
+      "errores_lexicos": [],
+      "diagnosticos": [
+        "Linea 2, columna 5: Se esperaba GRANO o POSO o GRANO_MOLIDO o CAFE o TAZA o QUBIT o COMPUERTA_H o COMPUERTA_X o COMPUERTA_Z o CNOT o MEDIR o IDENTIFICADOR o HIERVE o CHORREANDO o RECOLAR o DEGUSTAR, pero se encontro ENFRIA ('enfria') al analizar sentencia",
+        "Despues de 'barista chorreador' no puede haber mas codigo; se encontro '}'"
+      ],
+      "problemas": [],
+      "pasa": true
+    },
+    {
+      "id": "I16",
+      "grupo": "invalidos",
+      "objetivo": "Ciclo sin llaves",
+      "aceptar": false,
+      "token_error": "IDENTIFICADOR",
+      "archivo": "parser/pruebas_6_2_6_3/invalidos/I16.qc",
+      "correcto_obtenido": false,
+      "errores_lexicos": [],
+      "diagnosticos": [
+        "Linea 2, columna 24: Se esperaba LLAVE_ABRE, pero se encontro IDENTIFICADOR ('servir') al analizar bloque"
+      ],
+      "problemas": [],
+      "pasa": true
+    },
+    {
+      "id": "I17",
+      "grupo": "invalidos",
+      "objetivo": "Recolar sin en",
+      "aceptar": false,
+      "token_error": "IDENTIFICADOR",
+      "archivo": "parser/pruebas_6_2_6_3/invalidos/I17.qc",
+      "correcto_obtenido": false,
+      "errores_lexicos": [],
+      "diagnosticos": [
+        "Linea 2, columna 21: Se esperaba EN, pero se encontro IDENTIFICADOR ('datos') al analizar ciclo recolar",
+        "Despues de 'barista chorreador' no puede haber mas codigo; se encontro '}'"
+      ],
+      "problemas": [],
+      "pasa": true
+    },
+    {
+      "id": "I18",
+      "grupo": "invalidos",
+      "objetivo": "Metodo sin argumento",
+      "aceptar": false,
+      "token_error": "PARENTESIS_CIERRA",
+      "archivo": "parser/pruebas_6_2_6_3/invalidos/I18.qc",
+      "correcto_obtenido": false,
+      "errores_lexicos": [],
+      "diagnosticos": [
+        "Linea 2, columna 15: Se esperaba ENTERO o DECIMAL o CADENA o FUERTE o RALO o DESCAFEINADO o SE_QUEMO_EL_CAFE o CORCHETE_ABRE o IDENTIFICADOR o MEDIR o PARENTESIS_ABRE o AMARGO o SUMA o RESTA, pero se encontro PARENTESIS_CIERRA (')') al analizar expresion"
+      ],
+      "problemas": [],
+      "pasa": true
+    },
+    {
+      "id": "I19",
+      "grupo": "invalidos",
+      "objetivo": "CNOT sin coma",
+      "aceptar": false,
+      "token_error": "IDENTIFICADOR",
+      "archivo": "parser/pruebas_6_2_6_3/invalidos/I19.qc",
+      "correcto_obtenido": false,
+      "errores_lexicos": [],
+      "diagnosticos": [
+        "Linea 2, columna 12: Se esperaba COMA, pero se encontro IDENTIFICADOR ('r') al analizar compuerta CNOT"
+      ],
+      "problemas": [],
+      "pasa": true
+    },
+    {
+      "id": "I20",
+      "grupo": "invalidos",
+      "objetivo": "Compuerta con literal",
+      "aceptar": false,
+      "token_error": "ENTERO",
+      "archivo": "parser/pruebas_6_2_6_3/invalidos/I20.qc",
+      "correcto_obtenido": false,
+      "errores_lexicos": [],
+      "diagnosticos": [
+        "Linea 2, columna 7: Se esperaba IDENTIFICADOR, pero se encontro ENTERO ('1') al analizar qubit de compuerta unaria"
+      ],
+      "problemas": [],
+      "pasa": true
+    },
+    {
+      "id": "I21",
+      "grupo": "invalidos",
+      "objetivo": "Medicion sin argumento",
+      "aceptar": false,
+      "token_error": "PARENTESIS_CIERRA",
+      "archivo": "parser/pruebas_6_2_6_3/invalidos/I21.qc",
+      "correcto_obtenido": false,
+      "errores_lexicos": [],
+      "diagnosticos": [
+        "Linea 2, columna 11: Se esperaba IDENTIFICADOR, pero se encontro PARENTESIS_CIERRA (')') al analizar qubit de medicion"
+      ],
+      "problemas": [],
+      "pasa": true
+    },
+    {
+      "id": "I22",
+      "grupo": "invalidos",
+      "objetivo": "Tipo reemplazado por literal",
+      "aceptar": false,
+      "token_error": "FUERTE",
+      "archivo": "parser/pruebas_6_2_6_3/invalidos/I22.qc",
+      "correcto_obtenido": false,
+      "errores_lexicos": [],
+      "diagnosticos": [
+        "Linea 2, columna 5: Se esperaba GRANO o POSO o GRANO_MOLIDO o CAFE o TAZA o QUBIT o COMPUERTA_H o COMPUERTA_X o COMPUERTA_Z o CNOT o MEDIR o IDENTIFICADOR o HIERVE o CHORREANDO o RECOLAR o DEGUSTAR, pero se encontro FUERTE ('fuerte') al analizar sentencia"
+      ],
+      "problemas": [],
+      "pasa": true
+    },
+    {
+      "id": "I23",
+      "grupo": "invalidos",
+      "objetivo": "Identificador aislado",
+      "aceptar": false,
+      "token_error": "PUNTO_COMA",
+      "archivo": "parser/pruebas_6_2_6_3/invalidos/I23.qc",
+      "correcto_obtenido": false,
+      "errores_lexicos": [],
+      "diagnosticos": [
+        "Linea 2, columna 6: Se esperaba ASIGNACION o PARENTESIS_ABRE o PUNTO, pero se encontro PUNTO_COMA (';') al analizar sentencia que inicia con 'x'"
+      ],
+      "problemas": [],
+      "pasa": true
+    },
+    {
+      "id": "I24",
+      "grupo": "invalidos",
+      "objetivo": "Fin inesperado",
+      "aceptar": false,
+      "token_error": "FIN_ARCHIVO",
+      "archivo": "parser/pruebas_6_2_6_3/invalidos/I24.qc",
+      "correcto_obtenido": false,
+      "errores_lexicos": [],
+      "diagnosticos": [
+        "Linea 3, columna 1: Se esperaba LLAVE_CIERRA, pero se encontro fin de archivo al analizar bloque",
+        "Linea 3, columna 1: Se esperaba LLAVE_CIERRA, pero se encontro fin de archivo al analizar bloque"
+      ],
+      "problemas": [],
+      "pasa": true
+    },
+    {
+      "id": "I25",
+      "grupo": "invalidos",
+      "objetivo": "Dos errores y recuperacion",
+      "aceptar": false,
+      "token_error": "PUNTO_COMA",
+      "archivo": "parser/pruebas_6_2_6_3/invalidos/I25.qc",
+      "correcto_obtenido": false,
+      "errores_lexicos": [],
+      "diagnosticos": [
+        "Linea 2, columna 13: Se esperaba ENTERO o DECIMAL o CADENA o FUERTE o RALO o DESCAFEINADO o SE_QUEMO_EL_CAFE o CORCHETE_ABRE o IDENTIFICADOR o MEDIR o PARENTESIS_ABRE o AMARGO o SUMA o RESTA, pero se encontro PUNTO_COMA (';') al analizar expresion",
+        "Linea 3, columna 13: Se esperaba ENTERO o DECIMAL o CADENA o FUERTE o RALO o DESCAFEINADO o SE_QUEMO_EL_CAFE o CORCHETE_ABRE o IDENTIFICADOR o MEDIR o PARENTESIS_ABRE o AMARGO o SUMA o RESTA, pero se encontro PUNTO_COMA (';') al analizar expresion"
+      ],
+      "problemas": [],
+      "pasa": true
+    }
+  ]
+}
