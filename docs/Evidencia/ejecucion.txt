@@ -1,0 +1,72 @@
+Pruebas 6.2 y 6.3
+Python 3.12.14
+PASA V01: Principal minimo | aceptar=True | correcto=True
+PASA V02: Tipos y literales | aceptar=True | correcto=True
+PASA V03: Aritmetica y signos | aceptar=True | correcto=True
+PASA V04: Comparaciones y logica | aceptar=True | correcto=True
+PASA V05: Listas y metodos | aceptar=True | correcto=True
+PASA V06: Entrada salida y asignacion | aceptar=True | correcto=True
+PASA V07: Condicional con alternativa | aceptar=True | correcto=True
+PASA V08: Condicional sin alternativa | aceptar=True | correcto=True
+PASA V09: Ciclos anidados | aceptar=True | correcto=True
+PASA V10: Extension cuantica | aceptar=True | correcto=True
+PASA V11: Retornos | aceptar=True | correcto=True
+PASA V12: Sintaxis sin comprobacion semantica | aceptar=True | correcto=True
+PASA V13: Globales funciones parametros y llamadas | aceptar=True | correcto=True
+PASA I01: Programa vacio | aceptar=False | correcto=False
+  Falta la funcion principal 'barista chorreador()' al final del programa
+PASA I02: Falta principal | aceptar=False | correcto=False
+  Falta la funcion principal 'barista chorreador()' al final del programa
+PASA I03: Principal duplicado | aceptar=False | correcto=False
+  Despues de 'barista chorreador' no puede haber mas codigo; se encontro 'barista'
+PASA I04: Parametros en principal | aceptar=False | correcto=False
+  Linea 1, columna 20: Se esperaba PARENTESIS_CIERRA, pero se encontro GRANO ('grano') al analizar funcion principal
+PASA I05: Codigo despues de principal | aceptar=False | correcto=False
+  Despues de 'barista chorreador' no puede haber mas codigo; se encontro 'cafeteria'
+PASA I06: Falta punto y coma | aceptar=False | correcto=False
+  Linea 3, columna 1: Se esperaba PUNTO_COMA, pero se encontro LLAVE_CIERRA ('}') al analizar declaracion de variable
+PASA I07: Falta inicializador | aceptar=False | correcto=False
+  Linea 2, columna 13: Se esperaba ENTERO o DECIMAL o CADENA o FUERTE o RALO o DESCAFEINADO o SE_QUEMO_EL_CAFE o CORCHETE_ABRE o IDENTIFICADOR o MEDIR o PARENTESIS_ABRE o AMARGO o SUMA o RESTA, pero se encontro PUNTO_COMA (';') al analizar expresion
+PASA I08: Falta operando | aceptar=False | correcto=False
+  Linea 2, columna 15: Se esperaba ENTERO o DECIMAL o CADENA o FUERTE o RALO o DESCAFEINADO o SE_QUEMO_EL_CAFE o CORCHETE_ABRE o IDENTIFICADOR o MEDIR o PARENTESIS_ABRE o AMARGO o SUMA o RESTA, pero se encontro PUNTO_COMA (';') al analizar expresion
+PASA I09: Falta parentesis | aceptar=False | correcto=False
+  Linea 2, columna 13: Se esperaba PARENTESIS_CIERRA o COMA, pero se encontro PUNTO_COMA (';') al analizar argumentos de llamada
+PASA I10: Falta cierre de lista | aceptar=False | correcto=False
+  Linea 2, columna 22: Se esperaba CORCHETE_CIERRA o COMA, pero se encontro PUNTO_COMA (';') al analizar arreglo
+PASA I11: Coma final en lista | aceptar=False | correcto=False
+  Linea 2, columna 21: Se esperaba ENTERO o DECIMAL o CADENA o FUERTE o RALO o DESCAFEINADO o SE_QUEMO_EL_CAFE o CORCHETE_ABRE o IDENTIFICADOR o MEDIR o PARENTESIS_ABRE o AMARGO o SUMA o RESTA, pero se encontro CORCHETE_CIERRA (']') al analizar expresion
+PASA I12: Coma final en llamada | aceptar=False | correcto=False
+  Linea 2, columna 9: Se esperaba ENTERO o DECIMAL o CADENA o FUERTE o RALO o DESCAFEINADO o SE_QUEMO_EL_CAFE o CORCHETE_ABRE o IDENTIFICADOR o MEDIR o PARENTESIS_ABRE o AMARGO o SUMA o RESTA, pero se encontro PARENTESIS_CIERRA (')') al analizar expresion
+PASA I13: Asignacion en condicion | aceptar=False | correcto=False
+  Linea 2, columna 13: Se esperaba PARENTESIS_CIERRA, pero se encontro ASIGNACION ('=') al analizar condicional
+  Despues de 'barista chorreador' no puede haber mas codigo; se encontro '}'
+PASA I14: Comparacion encadenada | aceptar=False | correcto=False
+  No se admiten comparaciones encadenadas; use 'a < b ConAzucar b < c'
+  Despues de 'barista chorreador' no puede haber mas codigo; se encontro '}'
+PASA I15: Alternativa sin condicional | aceptar=False | correcto=False
+  Linea 2, columna 5: Se esperaba GRANO o POSO o GRANO_MOLIDO o CAFE o TAZA o QUBIT o COMPUERTA_H o COMPUERTA_X o COMPUERTA_Z o CNOT o MEDIR o IDENTIFICADOR o HIERVE o CHORREANDO o RECOLAR o DEGUSTAR, pero se encontro ENFRIA ('enfria') al analizar sentencia
+  Despues de 'barista chorreador' no puede haber mas codigo; se encontro '}'
+PASA I16: Ciclo sin llaves | aceptar=False | correcto=False
+  Linea 2, columna 24: Se esperaba LLAVE_ABRE, pero se encontro IDENTIFICADOR ('servir') al analizar bloque
+PASA I17: Recolar sin en | aceptar=False | correcto=False
+  Linea 2, columna 21: Se esperaba EN, pero se encontro IDENTIFICADOR ('datos') al analizar ciclo recolar
+  Despues de 'barista chorreador' no puede haber mas codigo; se encontro '}'
+PASA I18: Metodo sin argumento | aceptar=False | correcto=False
+  Linea 2, columna 15: Se esperaba ENTERO o DECIMAL o CADENA o FUERTE o RALO o DESCAFEINADO o SE_QUEMO_EL_CAFE o CORCHETE_ABRE o IDENTIFICADOR o MEDIR o PARENTESIS_ABRE o AMARGO o SUMA o RESTA, pero se encontro PARENTESIS_CIERRA (')') al analizar expresion
+PASA I19: CNOT sin coma | aceptar=False | correcto=False
+  Linea 2, columna 12: Se esperaba COMA, pero se encontro IDENTIFICADOR ('r') al analizar compuerta CNOT
+PASA I20: Compuerta con literal | aceptar=False | correcto=False
+  Linea 2, columna 7: Se esperaba IDENTIFICADOR, pero se encontro ENTERO ('1') al analizar qubit de compuerta unaria
+PASA I21: Medicion sin argumento | aceptar=False | correcto=False
+  Linea 2, columna 11: Se esperaba IDENTIFICADOR, pero se encontro PARENTESIS_CIERRA (')') al analizar qubit de medicion
+PASA I22: Tipo reemplazado por literal | aceptar=False | correcto=False
+  Linea 2, columna 5: Se esperaba GRANO o POSO o GRANO_MOLIDO o CAFE o TAZA o QUBIT o COMPUERTA_H o COMPUERTA_X o COMPUERTA_Z o CNOT o MEDIR o IDENTIFICADOR o HIERVE o CHORREANDO o RECOLAR o DEGUSTAR, pero se encontro FUERTE ('fuerte') al analizar sentencia
+PASA I23: Identificador aislado | aceptar=False | correcto=False
+  Linea 2, columna 6: Se esperaba ASIGNACION o PARENTESIS_ABRE o PUNTO, pero se encontro PUNTO_COMA (';') al analizar sentencia que inicia con 'x'
+PASA I24: Fin inesperado | aceptar=False | correcto=False
+  Linea 3, columna 1: Se esperaba LLAVE_CIERRA, pero se encontro fin de archivo al analizar bloque
+  Linea 3, columna 1: Se esperaba LLAVE_CIERRA, pero se encontro fin de archivo al analizar bloque
+PASA I25: Dos errores y recuperacion | aceptar=False | correcto=False
+  Linea 2, columna 13: Se esperaba ENTERO o DECIMAL o CADENA o FUERTE o RALO o DESCAFEINADO o SE_QUEMO_EL_CAFE o CORCHETE_ABRE o IDENTIFICADOR o MEDIR o PARENTESIS_ABRE o AMARGO o SUMA o RESTA, pero se encontro PUNTO_COMA (';') al analizar expresion
+  Linea 3, columna 13: Se esperaba ENTERO o DECIMAL o CADENA o FUERTE o RALO o DESCAFEINADO o SE_QUEMO_EL_CAFE o CORCHETE_ABRE o IDENTIFICADOR o MEDIR o PARENTESIS_ABRE o AMARGO o SUMA o RESTA, pero se encontro PUNTO_COMA (';') al analizar expresion
+Total: 38; fallos: 0
