@@ -60,13 +60,19 @@ class ControlSintactico:
     def sincronizar(self, consumir_punto_coma: bool = False) -> Token:
         """Avanza hasta un punto seguro despues de un error."""
 
-        limites = {
-            TokenType.PUNTO_COMA,
-            TokenType.LLAVE_CIERRA,
-            TokenType.FIN_ARCHIVO,
-        }
-
-        while self.flujo.mirar().tipo not in limites:
+        profundidad = 0
+        while True:
+            tipo = self.flujo.mirar().tipo
+            if tipo == TokenType.FIN_ARCHIVO:
+                break
+            if tipo == TokenType.LLAVE_ABRE:
+                profundidad += 1
+            elif tipo == TokenType.LLAVE_CIERRA:
+                if profundidad == 0:
+                    break
+                profundidad -= 1
+            elif tipo == TokenType.PUNTO_COMA and profundidad == 0:
+                break
             self.flujo.avanzar()
 
         actual = self.flujo.mirar()

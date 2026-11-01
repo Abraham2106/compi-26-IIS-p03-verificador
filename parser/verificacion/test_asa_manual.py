@@ -11,7 +11,6 @@ AQUI = Path(__file__).resolve().parent
 PROGRAMA = AQUI.parent / "ejemplos_completos" / "08_asa_manual.qc"
 ESPERADO = AQUI / "esperados" / "08_asa_manual.preorden.txt"
 
-# Esto de debe ajustar cuando haya parser, por el momento se salta
 MODULO_PARSER = "parser.analizador"
 CLASE_PARSER = "Analizador"
 
@@ -60,26 +59,34 @@ class TestAsaManual(unittest.TestCase):
 
 
 def _cargar_parser():
-    try:
-        modulo = importlib.import_module(MODULO_PARSER)
-        return getattr(modulo, CLASE_PARSER)()
-    except (ImportError, AttributeError):
-        return None
+    modulo = importlib.import_module(MODULO_PARSER)
+    return getattr(modulo, CLASE_PARSER)()
+
+
+def _analizar_programa():
+    entrada = explorar_para_parser(PROGRAMA.read_text("utf-8"))
+    return _cargar_parser().analizar(entrada.tokens_para_parser())
 
 
 class TestParserContraManual(unittest.TestCase):
-    """6.4: preorden esperado contra el generado por el parser real."""
+    """6.4: ASA manual (referencia) contra el generado por el parser real."""
 
     def test_preorden_generado_igual_al_manual(self):
-        analizador = _cargar_parser()
-        if analizador is None:
-            self.skipTest(
-                f"Aun no existe {MODULO_PARSER}.{CLASE_PARSER} (tarea 3.0).")
-        entrada = explorar_para_parser(PROGRAMA.read_text("utf-8"))
-        resultado = analizador.analizar(entrada.tokens_para_parser())
+        resultado = _analizar_programa()
         self.assertTrue(resultado.correcto, resultado.errores)
         esperado = ESPERADO.read_text("utf-8")
         self.assertEqual(comparar(esperado, a_texto(resultado.arbol)), "")
+
+    def test_arbol_generado_igual_al_manual_con_rangos(self):
+        resultado = _analizar_programa()
+        self.assertTrue(resultado.correcto, resultado.errores)
+        self.assertEqual(resultado.arbol.a_dict(), asa_manual().a_dict())
+
+    def test_error_si_se_altera_un_nodo(self):
+        """Control negativo: la comparacion detecta una diferencia real."""
+        resultado = _analizar_programa()
+        alterado = a_texto(resultado.arbol).replace('"Binaria", "+"', '"Binaria", "-"', 1)
+        self.assertNotEqual(comparar(ESPERADO.read_text("utf-8"), alterado), "")
 
 
 if __name__ == "__main__":
