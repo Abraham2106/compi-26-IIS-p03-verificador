@@ -26,6 +26,7 @@ def explorar_archivo(ruta: Path) -> Tuple[List[Token], list[ErrorLexico]]:
 
 
 def main(argv: list[str]) -> int:
+
     if len(argv) != 2:
         print("Uso: python main.py <archivo.qc>")
         return COD_USO

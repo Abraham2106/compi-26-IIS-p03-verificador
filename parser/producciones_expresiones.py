@@ -56,12 +56,8 @@ INICIO_EXPRESION = TIPOS_LITERAL + (
 )
 
 
-def fallar(
-    control: ControlSintactico,
-    mensaje: str,
-    encontrado: Token,
-    esperados: tuple[TokenType, ...] = (),
-) -> NoReturn:
+def fallar(control: ControlSintactico, mensaje: str, encontrado: Token,
+           esperados: tuple[TokenType, ...] = ()) -> NoReturn:
     """Registra un error sintactico propio y lo lanza como `esperar`."""
     error = ErrorSintactico(mensaje, encontrado, tuple(esperados))
     control.errores.append(error)
@@ -71,11 +67,8 @@ def fallar(
 class ProduccionesExpresiones:
     """Analiza expresiones aritmeticas, relacionales y logicas."""
 
-    def __init__(
-        self,
-        control: ControlSintactico,
-        analizar_medicion: Callable[[], NodoASA],
-    ) -> None:
+    def __init__(self, control: ControlSintactico,
+                 analizar_medicion: Callable[[], NodoASA]) -> None:
         self.control = control
         # `medir(q)` lo reconoce la extension cuantica (tarea 4.0).
         self.analizar_medicion = analizar_medicion

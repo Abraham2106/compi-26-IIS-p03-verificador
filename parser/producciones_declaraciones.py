@@ -27,9 +27,8 @@ INICIO_TIPO = TIPOS_BASE + (TokenType.TAZA,)
 class ProduccionesDeclaraciones:
     """Reconoce tipos, variables, asignaciones, llamadas y retornos."""
 
-    def __init__(
-        self, control: ControlSintactico, expresiones: ProduccionesExpresiones
-    ) -> None:
+    def __init__(self, control: ControlSintactico,
+                 expresiones: ProduccionesExpresiones) -> None:
         self.control = control
         self.expresiones = expresiones
 
@@ -107,7 +106,9 @@ class ProduccionesDeclaraciones:
 
     def retorno(self) -> NodoASA:
         """retorno_degustar ::= "degustar" [ expresion ] ";"."""
-        degustar = self.control.esperar(TokenType.DEGUSTAR, contexto="retorno")
+        degustar = self.control.esperar(
+            TokenType.DEGUSTAR, contexto="retorno"
+        )
         valor = None
         if self.control.flujo.mirar().tipo in INICIO_EXPRESION:
             valor = self.expresiones.expresion()

@@ -112,7 +112,9 @@ class TestCompuertaBinaria(unittest.TestCase):
     """Pruebas de la compuerta cuantica CNOT."""
 
     def test_cnot_valido(self):
-        control, producciones = crear_producciones("CNOT(q0, q1);")
+        control, producciones = crear_producciones(
+            "CNOT(q0, q1);"
+        )
 
         nodo = producciones.compuerta_binaria()
 
@@ -120,8 +122,12 @@ class TestCompuertaBinaria(unittest.TestCase):
         self.assertEqual(nodo.atributos["compuerta"], "CNOT")
         self.assertEqual(len(nodo.hijos), 2)
 
-        self.assertEqual(nodo.hijos[0].atributos["nombre"], "q0")
-        self.assertEqual(nodo.hijos[1].atributos["nombre"], "q1")
+        self.assertEqual(
+            nodo.hijos[0].atributos["nombre"], "q0"
+        )
+        self.assertEqual(
+            nodo.hijos[1].atributos["nombre"], "q1"
+        )
 
         self.assertEqual(
             control.flujo.mirar().tipo,
@@ -129,7 +135,9 @@ class TestCompuertaBinaria(unittest.TestCase):
         )
 
     def test_cnot_sin_coma(self):
-        _, producciones = crear_producciones("CNOT(q0 q1);")
+        _, producciones = crear_producciones(
+            "CNOT(q0 q1);"
+        )
 
         with self.assertRaises(FalloSintactico) as resultado:
             producciones.compuerta_binaria()
@@ -140,7 +148,9 @@ class TestCompuertaBinaria(unittest.TestCase):
         )
 
     def test_cnot_segundo_argumento_invalido(self):
-        _, producciones = crear_producciones("CNOT(q0, 10);")
+        _, producciones = crear_producciones(
+            "CNOT(q0, 10);"
+        )
 
         with self.assertRaises(FalloSintactico) as resultado:
             producciones.compuerta_binaria()
@@ -155,7 +165,9 @@ class TestMedicion(unittest.TestCase):
     """Pruebas de la medicion cuantica."""
 
     def test_medicion_valida(self):
-        control, producciones = crear_producciones("medir(q0);")
+        control, producciones = crear_producciones(
+            "medir(q0);"
+        )
 
         nodo = producciones.medicion()
 
@@ -177,7 +189,9 @@ class TestMedicion(unittest.TestCase):
         )
 
     def test_medicion_argumento_invalido(self):
-        _, producciones = crear_producciones("medir(10);")
+        _, producciones = crear_producciones(
+            "medir(10);"
+        )
 
         with self.assertRaises(FalloSintactico) as resultado:
             producciones.medicion()

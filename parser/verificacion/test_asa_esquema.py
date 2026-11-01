@@ -22,9 +22,8 @@ def literal(lexema="1", categoria="ENTERO"):
 
 
 def programa(*sentencias):
-    principal = nodo(
-        C.PRINCIPAL, {"nombre": "chorreador"}, nodo(C.BLOQUE, {}, *sentencias)
-    )
+    principal = nodo(C.PRINCIPAL, {"nombre": "chorreador"},
+                     nodo(C.BLOQUE, {}, *sentencias))
     return nodo(C.PROGRAMA, {}, principal)
 
 
@@ -40,30 +39,20 @@ class TestEsquema(unittest.TestCase):
 
     def test_atributo_faltante_o_sobrante(self):
         self.assertTrue(problemas_nodo(nodo(C.IDENTIFICADOR)))
-        self.assertTrue(
-            problemas_nodo(nodo(C.IDENTIFICADOR, {"nombre": "x", "otro": "y"}))
-        )
+        self.assertTrue(problemas_nodo(
+            nodo(C.IDENTIFICADOR, {"nombre": "x", "otro": "y"})))
 
     def test_binaria_requiere_dos_hijos(self):
-        self.assertTrue(
-            problemas_nodo(nodo(C.BINARIA, {"operador": "+"}, literal()))
-        )
-        self.assertEqual(
-            problemas_nodo(
-                nodo(C.BINARIA, {"operador": "+"}, literal(), literal())
-            ),
-            [],
-        )
+        self.assertTrue(problemas_nodo(
+            nodo(C.BINARIA, {"operador": "+"}, literal())))
+        self.assertEqual(problemas_nodo(
+            nodo(C.BINARIA, {"operador": "+"}, literal(), literal())), [])
 
     def test_operador_invalido(self):
-        self.assertTrue(
-            problemas_nodo(
-                nodo(C.BINARIA, {"operador": "**"}, literal(), literal())
-            )
-        )
-        self.assertTrue(
-            problemas_nodo(nodo(C.UNARIA, {"operador": "*"}, literal()))
-        )
+        self.assertTrue(problemas_nodo(
+            nodo(C.BINARIA, {"operador": "**"}, literal(), literal())))
+        self.assertTrue(problemas_nodo(
+            nodo(C.UNARIA, {"operador": "*"}, literal())))
 
     def test_tipo_debe_ser_canonico(self):
         malo = nodo(C.LOCAL, {"nombre": "a", "tipo": "taza"})
@@ -73,46 +62,32 @@ class TestEsquema(unittest.TestCase):
 
     def test_condicional_acepta_uno_o_dos_bloques(self):
         b = nodo(C.BLOQUE)
-        self.assertEqual(
-            problemas_nodo(nodo(C.CONDICIONAL, {}, ident(), b)), []
-        )
-        self.assertEqual(
-            problemas_nodo(nodo(C.CONDICIONAL, {}, ident(), b, b)), []
-        )
-        self.assertTrue(
-            problemas_nodo(nodo(C.CONDICIONAL, {}, ident(), b, b, b))
-        )
+        self.assertEqual(problemas_nodo(
+            nodo(C.CONDICIONAL, {}, ident(), b)), [])
+        self.assertEqual(problemas_nodo(
+            nodo(C.CONDICIONAL, {}, ident(), b, b)), [])
+        self.assertTrue(problemas_nodo(
+            nodo(C.CONDICIONAL, {}, ident(), b, b, b)))
         self.assertTrue(problemas_nodo(nodo(C.CONDICIONAL, {}, b)))
 
     def test_funcion_parametros_y_luego_bloque(self):
         p = nodo(C.PARAMETRO, {"nombre": "a", "tipo": "grano"})
         b = nodo(C.BLOQUE)
-        self.assertEqual(
-            problemas_nodo(nodo(C.FUNCION, {"nombre": "f"}, p, p, b)), []
-        )
-        self.assertTrue(problemas_nodo(nodo(C.FUNCION, {"nombre": "f"}, b, p)))
+        self.assertEqual(problemas_nodo(
+            nodo(C.FUNCION, {"nombre": "f"}, p, p, b)), [])
+        self.assertTrue(problemas_nodo(
+            nodo(C.FUNCION, {"nombre": "f"}, b, p)))
 
     def test_compuertas(self):
-        self.assertEqual(
-            problemas_nodo(nodo(C.COMPUERTA, {"compuerta": "H"}, ident("q"))),
-            [],
-        )
-        self.assertEqual(
-            problemas_nodo(
-                nodo(
-                    C.COMPUERTA, {"compuerta": "CNOT"}, ident("a"), ident("b")
-                )
-            ),
-            [],
-        )
-        self.assertTrue(
-            problemas_nodo(
-                nodo(C.COMPUERTA, {"compuerta": "CNOT"}, ident("a"))
-            )
-        )
-        self.assertTrue(
-            problemas_nodo(nodo(C.COMPUERTA, {"compuerta": "Y"}, ident("a")))
-        )
+        self.assertEqual(problemas_nodo(
+            nodo(C.COMPUERTA, {"compuerta": "H"}, ident("q"))), [])
+        self.assertEqual(problemas_nodo(
+            nodo(C.COMPUERTA, {"compuerta": "CNOT"}, ident("a"), ident("b"))),
+            [])
+        self.assertTrue(problemas_nodo(
+            nodo(C.COMPUERTA, {"compuerta": "CNOT"}, ident("a"))))
+        self.assertTrue(problemas_nodo(
+            nodo(C.COMPUERTA, {"compuerta": "Y"}, ident("a"))))
 
     def test_una_declaracion_no_puede_estar_en_un_bloque(self):
         glob = nodo(C.GLOBAL, {"nombre": "a", "tipo": "grano"})

@@ -248,8 +248,7 @@ class TestCondicionales(unittest.TestCase):
 
     def test_hierve_con_enfria(self):
         control, producciones = self.crear_producciones(
-            "hierve (fuerte) {} enfria {}"
-        )
+            "hierve (fuerte) {} enfria {}")
 
         nodo = producciones.condicional()
 
@@ -434,8 +433,7 @@ class TestFunciones(unittest.TestCase):
 
     def test_funcion_con_parametros(self):
         control = crear_control(
-            "barista preparar(grano cantidad, cafe listo) {}"
-        )
+            "barista preparar(grano cantidad, cafe listo) {}")
 
         def analizar_tipo():
             token = control.esperar(

@@ -20,12 +20,8 @@ LEXICOS = {
     "numero_decimal": TokenType.DECIMAL,
     "cadena": TokenType.CADENA,
 }
-SOLO_LEXICOS = set(LEXICOS) | {
-    "letra",
-    "digito",
-    "caracter_cadena",
-    "comentario",
-}
+SOLO_LEXICOS = set(LEXICOS) | {"letra", "digito",
+                               "caracter_cadena", "comentario"}
 CATALOGO = {**PALABRAS_RESERVADAS, **SIMBOLOS_DOBLES, **SIMBOLOS_SIMPLES}
 
 
@@ -37,8 +33,7 @@ def tokenizar_ebnf(texto):
         m = patron.match(texto, posicion)
         if not m:
             raise ValueError(
-                f"EBNF invalida cerca de {texto[posicion : posicion + 30]!r}"
-            )
+                f"EBNF invalida cerca de {texto[posicion:posicion+30]!r}")
         if not m[0].isspace():
             salida.append(m[0])
         posicion = m.end()
@@ -70,8 +65,7 @@ def produccion(texto):
                     raise ValueError(f"EBNF: falta cierre {fin}")
                 posicion += 1
                 nodos.append(
-                    ({"{": "star", "[": "opt", "(": "group"}[t], contenido)
-                )
+                    ({"{": "star", "[": "opt", "(": "group"}[t], contenido))
             elif t.startswith('"'):
                 nodos.append(("terminal", t[1:-1]))
             elif t in ("}", "]", ")"):
@@ -80,8 +74,7 @@ def produccion(texto):
                 nodos.append(("ref", t))
         if not nodos:
             raise ValueError(
-                "EBNF: alternativa vacia; usar una parte opcional explicita"
-            )
+                "EBNF: alternativa vacia; usar una parte opcional explicita")
         return ("seq", nodos)
 
     resultado = alternativa()
@@ -114,23 +107,19 @@ class Gramatica:
             nombres.add(nombre)
             if nombre in SOLO_LEXICOS:
                 continue
-            limite = (
-                marcas[i + 1].start() if i + 1 < len(marcas) else len(fuente)
-            )
-            self.reglas[nombre] = produccion(fuente[marca.end() : limite])
+            limite = marcas[i+1].start() if i+1 < len(marcas) else len(fuente)
+            self.reglas[nombre] = produccion(fuente[marca.end():limite])
         if "programa" not in self.reglas:
             raise ValueError("Falta la produccion inicial programa")
         refs = set().union(*(referencias(n) for n in self.reglas.values()))
         faltantes = refs - set(self.reglas) - set(LEXICOS)
         if faltantes:
             raise ValueError(f"Producciones sin definir: {sorted(faltantes)}")
-        self.terminales = set().union(
-            *(referencias(n, "terminal") for n in self.reglas.values())
-        )
+        self.terminales = set().union(*(referencias(n, "terminal")
+                                        for n in self.reglas.values()))
         if self.terminales - set(CATALOGO):
             raise ValueError(
-                f"Terminales sin token: {self.terminales - set(CATALOGO)}"
-            )
+                f"Terminales sin token: {self.terminales - set(CATALOGO)}")
         self.nullable = set()
         while True:
             nuevos = {k for k, n in self.reglas.items() if self.anulable(n)}
@@ -179,11 +168,9 @@ class Gramatica:
                 return v in productivas
             if k == "group":
                 return produce(v)
-            return (
-                all(produce(h) for h in v)
-                if k == "seq"
-                else any(produce(h) for h in v)
-            )
+            return all(
+                produce(h) for h in v) if k == "seq" else any(
+                produce(h) for h in v)
 
         while True:
             nuevas = {k for k, n in self.reglas.items() if produce(n)}
@@ -205,7 +192,6 @@ class Gramatica:
             elif k in ("seq", "alt"):
                 for hijo in v:
                     repetir(hijo)
-
         grafo = {k: self.iniciales(n) for k, n in self.reglas.items()}
         for origen in self.reglas:
             pendientes = list(grafo[origen])
@@ -229,8 +215,7 @@ class Gramatica:
         sobrantes = set(self.reglas) - alcanzables
         if sobrantes:
             raise ValueError(
-                f"Producciones inalcanzables: {sorted(sobrantes)}"
-            )
+                f"Producciones inalcanzables: {sorted(sobrantes)}")
 
     def construir_bnf(self):
         self.bnf = {}
@@ -268,11 +253,8 @@ class Gramatica:
     def first_secuencia(self, secuencia):
         resultado = set()
         for simbolo in secuencia:
-            parte = (
-                {simbolo[2:]}
-                if simbolo.startswith("T:")
-                else self.first[simbolo[2:]]
-            )
+            parte = {simbolo[2:]} if simbolo.startswith(
+                "T:") else self.first[simbolo[2:]]
             resultado |= parte - {"EPSILON"}
             if "EPSILON" not in parte:
                 return resultado
@@ -298,7 +280,7 @@ class Gramatica:
                     for i, simbolo in enumerate(rama):
                         if simbolo.startswith("N:"):
                             destino = simbolo[2:]
-                            siguientes = self.first_secuencia(rama[i + 1 :])
+                            siguientes = self.first_secuencia(rama[i+1:])
                             nuevos = siguientes - {"EPSILON"}
                             if "EPSILON" in siguientes:
                                 nuevos |= self.follow[nombre]
@@ -311,11 +293,11 @@ class Gramatica:
             for rama in ramas:
                 f = self.first_secuencia(rama)
                 predicciones.append(
-                    (f - {"EPSILON"})
-                    | (self.follow[nombre] if "EPSILON" in f else set())
-                )
+                    (f -
+                     {"EPSILON"}) | (
+                        self.follow[nombre] if "EPSILON" in f else set()))
             for i, a in enumerate(predicciones):
-                for j in range(i + 1, len(predicciones)):
+                for j in range(i+1, len(predicciones)):
                     compartidos = a & predicciones[j]
                     if compartidos:
                         self.conflictos.append(
@@ -363,10 +345,8 @@ class Gramatica:
                 finales = {posicion}
                 for hijo in v:
                     finales = {
-                        fin
-                        for inicio in finales
-                        for fin in reconocer(hijo, inicio)
-                    }
+                        fin for inicio in finales for fin in reconocer(
+                            hijo, inicio)}
                 return frozenset(finales)
             if k == "opt":
                 return frozenset({posicion}) | reconocer(v, posicion)

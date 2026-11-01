@@ -46,5 +46,4 @@ Las reglas E, F y W y el limite de 79 columnas estan en `ruff.toml`.
 
 ```bash
 python -m ruff check parser scanner
-python -m ruff format --check parser scanner
 ```

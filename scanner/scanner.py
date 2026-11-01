@@ -74,7 +74,7 @@ class Scanner:
     def _emitir(self, tipo: TokenType, lexema: Optional[str] = None) -> None:
         """Conserva en el token la posicion inicial del lexema."""
         if lexema is None:
-            lexema = self.fuente[self._ini_pos : self.pos]
+            lexema = self.fuente[self._ini_pos:self.pos]
 
         self.tokens.append(
             Token(
@@ -92,7 +92,7 @@ class Scanner:
     ) -> None:
         """Registra el error y permite continuar el analisis."""
         if lexema is None:
-            lexema = self.fuente[self._ini_pos : self.pos]
+            lexema = self.fuente[self._ini_pos:self.pos]
 
         self.errores.append(
             ErrorLexico(
@@ -183,14 +183,11 @@ class Scanner:
     def _leer_identificador(self):
         """Reconoce palabras reservadas e identificadores."""
 
-        while not self._fin() and (
-            self._actual() in LETRAS
-            or self._actual() in DIGITOS
-            or self._actual() == "_"
-        ):
+        while not self._fin() and (self._actual() in LETRAS or self._actual()
+                                   in DIGITOS or self._actual() == "_"):
             self._avanzar()
 
-        lexema = self.fuente[self._ini_pos : self.pos]
+        lexema = self.fuente[self._ini_pos:self.pos]
 
         tipo = PALABRAS_RESERVADAS.get(lexema, TokenType.IDENTIFICADOR)
 
@@ -221,7 +218,7 @@ class Scanner:
 
         self._avanzar()
 
-        while not self._fin() and self._actual() not in ('"', "\n", "\r"):
+        while not self._fin() and self._actual() not in ('"', '\n', '\r'):
             self._avanzar()
 
         if not self._fin() and self._actual() == '"':

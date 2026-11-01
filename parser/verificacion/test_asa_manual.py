@@ -18,14 +18,9 @@ CLASE_PARSER = "Analizador"
 
 def comparar(esperado: str, generado: str) -> str:
     """Diferencias linea por linea (vacio si coinciden)."""
-    return "".join(
-        difflib.unified_diff(
-            esperado.splitlines(True),
-            generado.splitlines(True),
-            "esperado",
-            "generado",
-        )
-    )
+    return "".join(difflib.unified_diff(
+        esperado.splitlines(True), generado.splitlines(True),
+        "esperado", "generado"))
 
 
 class TestAsaManual(unittest.TestCase):
@@ -38,38 +33,27 @@ class TestAsaManual(unittest.TestCase):
             anterior = None
             for hijo in nodo.hijos:
                 self.assertLessEqual(
-                    nodo.rango.inicio, hijo.rango.inicio, nodo.clase
-                )
+                    nodo.rango.inicio, hijo.rango.inicio, nodo.clase)
                 self.assertLessEqual(
-                    hijo.rango.fin, nodo.rango.fin, nodo.clase
-                )
+                    hijo.rango.fin, nodo.rango.fin, nodo.clase)
                 if anterior is not None:
                     self.assertLessEqual(anterior.rango.fin, hijo.rango.inicio)
                 anterior = hijo
 
     def test_rango_de_hojas_coincide_con_tokens_del_scanner(self):
         tokens = explorar_para_parser(
-            PROGRAMA.read_text("utf-8")
-        ).tokens_para_parser()
-        posiciones = {
-            (t.linea, t.columna, t.columna + len(t.lexema)): t.lexema
-            for t in tokens
-        }
-        hojas = [
-            n
-            for _, n in recorrer_preorden(asa_manual())
-            if n.clase.value in ("Identificador", "Literal")
-        ]
+            PROGRAMA.read_text("utf-8")).tokens_para_parser()
+        posiciones = {(t.linea, t.columna, t.columna + len(t.lexema)): t.lexema
+                      for t in tokens}
+        hojas = [n for _, n in recorrer_preorden(asa_manual())
+                 if n.clase.value in ("Identificador", "Literal")]
         self.assertTrue(hojas)
         for hoja in hojas:
             r = hoja.rango
             lexema = posiciones.get(
-                (r.inicio.linea, r.inicio.columna, r.fin.columna)
-            )
-            self.assertEqual(
-                lexema,
-                hoja.atributos.get("lexema", hoja.atributos.get("nombre")),
-            )
+                (r.inicio.linea, r.inicio.columna, r.fin.columna))
+            self.assertEqual(lexema, hoja.atributos.get(
+                "lexema", hoja.atributos.get("nombre")))
 
     def test_programa_manual_no_tiene_errores_lexicos(self):
         self.assertTrue(explorar_para_parser(PROGRAMA.read_text("utf-8")).apta)
@@ -90,8 +74,7 @@ class TestParserContraManual(unittest.TestCase):
         analizador = _cargar_parser()
         if analizador is None:
             self.skipTest(
-                f"Aun no existe {MODULO_PARSER}.{CLASE_PARSER} (tarea 3.0)."
-            )
+                f"Aun no existe {MODULO_PARSER}.{CLASE_PARSER} (tarea 3.0).")
         entrada = explorar_para_parser(PROGRAMA.read_text("utf-8"))
         resultado = analizador.analizar(entrada.tokens_para_parser())
         self.assertTrue(resultado.correcto, resultado.errores)
