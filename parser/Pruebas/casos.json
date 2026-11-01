@@ -1,0 +1,250 @@
+[
+  {
+    "id": "V01",
+    "grupo": "validos",
+    "objetivo": "Principal minimo",
+    "aceptar": true
+  },
+  {
+    "id": "V02",
+    "grupo": "validos",
+    "objetivo": "Tipos y literales",
+    "aceptar": true
+  },
+  {
+    "id": "V03",
+    "grupo": "validos",
+    "objetivo": "Aritmetica y signos",
+    "aceptar": true
+  },
+  {
+    "id": "V04",
+    "grupo": "validos",
+    "objetivo": "Comparaciones y logica",
+    "aceptar": true
+  },
+  {
+    "id": "V05",
+    "grupo": "validos",
+    "objetivo": "Listas y metodos",
+    "aceptar": true
+  },
+  {
+    "id": "V06",
+    "grupo": "validos",
+    "objetivo": "Entrada salida y asignacion",
+    "aceptar": true
+  },
+  {
+    "id": "V07",
+    "grupo": "validos",
+    "objetivo": "Condicional con alternativa",
+    "aceptar": true
+  },
+  {
+    "id": "V08",
+    "grupo": "validos",
+    "objetivo": "Condicional sin alternativa",
+    "aceptar": true
+  },
+  {
+    "id": "V09",
+    "grupo": "validos",
+    "objetivo": "Ciclos anidados",
+    "aceptar": true
+  },
+  {
+    "id": "V10",
+    "grupo": "validos",
+    "objetivo": "Extension cuantica",
+    "aceptar": true
+  },
+  {
+    "id": "V11",
+    "grupo": "validos",
+    "objetivo": "Retornos",
+    "aceptar": true
+  },
+  {
+    "id": "V12",
+    "grupo": "validos",
+    "objetivo": "Sintaxis sin comprobacion semantica",
+    "aceptar": true
+  },
+  {
+    "id": "V13",
+    "grupo": "validos",
+    "objetivo": "Globales funciones parametros y llamadas",
+    "aceptar": true
+  },
+  {
+    "id": "I01",
+    "grupo": "invalidos",
+    "objetivo": "Programa vacio",
+    "aceptar": false
+  },
+  {
+    "id": "I02",
+    "grupo": "invalidos",
+    "objetivo": "Falta principal",
+    "aceptar": false
+  },
+  {
+    "id": "I03",
+    "grupo": "invalidos",
+    "objetivo": "Principal duplicado",
+    "aceptar": false
+  },
+  {
+    "id": "I04",
+    "grupo": "invalidos",
+    "objetivo": "Parametros en principal",
+    "aceptar": false
+  },
+  {
+    "id": "I05",
+    "grupo": "invalidos",
+    "objetivo": "Codigo despues de principal",
+    "aceptar": false
+  },
+  {
+    "id": "I06",
+    "grupo": "invalidos",
+    "objetivo": "Falta punto y coma",
+    "aceptar": false,
+    "token_error": "LLAVE_CIERRA"
+  },
+  {
+    "id": "I07",
+    "grupo": "invalidos",
+    "objetivo": "Falta inicializador",
+    "aceptar": false,
+    "token_error": "PUNTO_COMA"
+  },
+  {
+    "id": "I08",
+    "grupo": "invalidos",
+    "objetivo": "Falta operando",
+    "aceptar": false,
+    "token_error": "PUNTO_COMA"
+  },
+  {
+    "id": "I09",
+    "grupo": "invalidos",
+    "objetivo": "Falta parentesis",
+    "aceptar": false,
+    "token_error": "PUNTO_COMA"
+  },
+  {
+    "id": "I10",
+    "grupo": "invalidos",
+    "objetivo": "Falta cierre de lista",
+    "aceptar": false,
+    "token_error": "PUNTO_COMA"
+  },
+  {
+    "id": "I11",
+    "grupo": "invalidos",
+    "objetivo": "Coma final en lista",
+    "aceptar": false,
+    "token_error": "CORCHETE_CIERRA"
+  },
+  {
+    "id": "I12",
+    "grupo": "invalidos",
+    "objetivo": "Coma final en llamada",
+    "aceptar": false,
+    "token_error": "PARENTESIS_CIERRA"
+  },
+  {
+    "id": "I13",
+    "grupo": "invalidos",
+    "objetivo": "Asignacion en condicion",
+    "aceptar": false,
+    "token_error": "ASIGNACION"
+  },
+  {
+    "id": "I14",
+    "grupo": "invalidos",
+    "objetivo": "Comparacion encadenada",
+    "aceptar": false,
+    "token_error": "MENOR"
+  },
+  {
+    "id": "I15",
+    "grupo": "invalidos",
+    "objetivo": "Alternativa sin condicional",
+    "aceptar": false,
+    "token_error": "ENFRIA"
+  },
+  {
+    "id": "I16",
+    "grupo": "invalidos",
+    "objetivo": "Ciclo sin llaves",
+    "aceptar": false,
+    "token_error": "IDENTIFICADOR"
+  },
+  {
+    "id": "I17",
+    "grupo": "invalidos",
+    "objetivo": "Recolar sin en",
+    "aceptar": false,
+    "token_error": "IDENTIFICADOR"
+  },
+  {
+    "id": "I18",
+    "grupo": "invalidos",
+    "objetivo": "Metodo sin argumento",
+    "aceptar": false,
+    "token_error": "PARENTESIS_CIERRA"
+  },
+  {
+    "id": "I19",
+    "grupo": "invalidos",
+    "objetivo": "CNOT sin coma",
+    "aceptar": false,
+    "token_error": "IDENTIFICADOR"
+  },
+  {
+    "id": "I20",
+    "grupo": "invalidos",
+    "objetivo": "Compuerta con literal",
+    "aceptar": false,
+    "token_error": "ENTERO"
+  },
+  {
+    "id": "I21",
+    "grupo": "invalidos",
+    "objetivo": "Medicion sin argumento",
+    "aceptar": false,
+    "token_error": "PARENTESIS_CIERRA"
+  },
+  {
+    "id": "I22",
+    "grupo": "invalidos",
+    "objetivo": "Tipo reemplazado por literal",
+    "aceptar": false,
+    "token_error": "FUERTE"
+  },
+  {
+    "id": "I23",
+    "grupo": "invalidos",
+    "objetivo": "Identificador aislado",
+    "aceptar": false,
+    "token_error": "PUNTO_COMA"
+  },
+  {
+    "id": "I24",
+    "grupo": "invalidos",
+    "objetivo": "Fin inesperado",
+    "aceptar": false,
+    "token_error": "FIN_ARCHIVO"
+  },
+  {
+    "id": "I25",
+    "grupo": "invalidos",
+    "objetivo": "Dos errores y recuperacion",
+    "aceptar": false,
+    "token_error": "PUNTO_COMA"
+  }
+]
