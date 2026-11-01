@@ -14,6 +14,7 @@ class FalloSintactico(Exception):
 
 class ControlSintactico:
     """Comprueba los tokens que exige la gramatica."""
+
     def __init__(self, flujo: FlujoTokens) -> None:
         self.flujo = flujo
         self.errores: list[ErrorSintactico] = []
@@ -39,7 +40,10 @@ class ControlSintactico:
         else:
             encontrado = f"{actual.tipo.name} ({actual.lexema!r})"
 
-        mensaje = f"Se esperaba {esperados}, pero se encontro {encontrado}"
+        mensaje = (
+            f"Linea {actual.linea}, columna {actual.columna}: "
+            f"Se esperaba {esperados}, pero se encontro {encontrado}"
+        )
 
         if contexto:
             mensaje += f" al analizar {contexto}"

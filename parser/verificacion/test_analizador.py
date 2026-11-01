@@ -334,7 +334,8 @@ class TestConexionPendiente(unittest.TestCase):
     def test_construccion_sin_conectar_se_informa(self):
         entrada = explorar_para_parser(
             "barista chorreador() { hierve (fuerte) { } }")
-        resultado = Analizador().analizar(entrada.tokens_para_parser())
+        resultado = Analizador(lambda analisis: None).analizar(
+            entrada.tokens_para_parser())
         self.assertFalse(resultado.correcto)
         self.assertIn("no esta conectada", resultado.errores[0].mensaje)
 

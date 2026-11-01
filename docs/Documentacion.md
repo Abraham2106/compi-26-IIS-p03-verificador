@@ -2,13 +2,16 @@
 
 Documento único para la documentación del scanner y del parser. La implementación del scanner está en `scanner/`; la integración y verificación del parser están en `parser/`. La especificación EBNF incluida aquí también es la entrada que consume el verificador.
 
-El repositorio todavía no incluye un parser de producción, análisis semántico ni generación de código. Los ejemplos completos permanecen como archivos `.qc` en `parser/ejemplos_completos/`.
+El repositorio incluye el parser integrado y su ASA; no incluye análisis semántico ni generación de código. Los ejemplos completos permanecen como archivos `.qc` en `parser/ejemplos_completos/`.
 
 Los cinco ejercicios originales y la corrección de la llave extra del ejercicio de textos se describen en la sección Programas de referencia; sus versiones ejecutables están en `parser/ejemplos_completos/`.
 
 Para consultar el ejemplo JSON del ASA y el registro de una ejecución anterior, ver `docs/asa_referencia.json` y `docs/RESULTADOS_VERIFICACION.txt`.
 
-## Estado y alcance del proyecto
+## Estado y alcance de la revisión inicial
+
+Esta sección registra la revisión previa a la integración. Para el estado actual,
+ver la sección final de integración de las tareas 4.4 y 5.3.
 
 ### Objetivo y limite
 
@@ -856,3 +859,26 @@ se intentan expresar mediante mas producciones:
 
 Estos contratos son especificacion para las siguientes etapas; el scanner
 actual solo reconoce tokens y errores lexicos. No ejecuta estos comportamientos.
+
+
+## Integración final de las tareas 4.4 y 5.3
+
+El analizador conecta por defecto las producciones de control, funciones y
+extensión cuántica. Todas comparten el cursor y el registro de errores; las
+expresiones y los tipos se delegan al núcleo. Es posible inyectar otra conexión
+para pruebas aisladas.
+
+Se conserva el análisis descendente por producciones y los niveles de
+precedencia de la EBNF. La decisión BARISTA usa el siguiente token para
+distinguir una función de chorreador; no se afirma que sea LL(1) estricto.
+La recuperación en modo pánico sincroniza en punto y coma, cierre de bloque o
+fin de archivo. El bloque conserva su cierre y el cursor avanza al descartar
+entrada; un árbol parcial con errores nunca se considera un parseo correcto.
+La construcción del ASA conserva posiciones y lexemas, sin evaluar semántica.
+Estas decisiones corresponden a los capítulos 4 y 5 de Aho, Lam, Sethi y
+Ullman, Compilers: Principles, Techniques, and Tools, segunda edición.
+Referencia: https://suif.stanford.edu/dragonbook/lecture-notes.html
+
+La revisión técnica de 7.0 cubre lint y pruebas automatizadas de integración.
+La defensa de cada integrante, sus reflexiones individuales y la presentación
+por el medio exigido por el profesor deben completarse por el equipo.

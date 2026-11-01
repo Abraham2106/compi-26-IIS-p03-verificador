@@ -47,16 +47,11 @@ class ProduccionesControl:
                     raise
 
                 # Buscar el siguiente punto seguro.
-                self.control.sincronizar(
-                    consumir_punto_coma=True
-                )
+                self.control.sincronizar(consumir_punto_coma=True)
                 continue
             if self.control.flujo.indice == posicion_anterior:
-                raise RuntimeError(
-                    "El analizador de sentencias no avanzo."
-                )
+                raise RuntimeError("El analizador de sentencias no avanzo.")
             sentencias.append(sentencia)
-
 
         fin = self.control.esperar(
             TokenType.LLAVE_CIERRA,

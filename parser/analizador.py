@@ -1,19 +1,4 @@
-"""Nucleo del analizador sintactico de Quantum Coffee.
-
-NO importa las producciones de bloques, estructuras de control,
-funciones, `chorreador` y extension cuantica. Esas se enganchan desde fuera
-con `registrar_*`. Ejemplo:
-
-    def conectar(analisis):
-        control = ProduccionesControl(
-            analisis.control, analisis.sentencia,
-            analisis.expresion, analisis.tipo)
-        analisis.registrar_sentencia(TokenType.HIERVE, control.condicional)
-        analisis.registrar_funcion(control.funcion)
-        analisis.registrar_principal(control.chorreador)
-
-    resultado = Analizador(conectar).analizar(tokens)
-"""
+"""Analizador descendente con las producciones completas de Quantum Coffee."""
 
 from collections.abc import Callable, Iterable, Sequence
 from typing import NoReturn
@@ -40,12 +25,16 @@ INICIO_CUANTICA = (
     TokenType.MEDIR,
 )
 
-INICIO_SENTENCIA = INICIO_TIPO + INICIO_CUANTICA + (
-    TokenType.IDENTIFICADOR,
-    TokenType.HIERVE,
-    TokenType.CHORREANDO,
-    TokenType.RECOLAR,
-    TokenType.DEGUSTAR,
+INICIO_SENTENCIA = (
+    INICIO_TIPO
+    + INICIO_CUANTICA
+    + (
+        TokenType.IDENTIFICADOR,
+        TokenType.HIERVE,
+        TokenType.CHORREANDO,
+        TokenType.RECOLAR,
+        TokenType.DEGUSTAR,
+    )
 )
 
 INICIO_DECLARACION = (TokenType.CAFETERIA, TokenType.BARISTA)
@@ -71,7 +60,7 @@ class Analizador:
     """
 
     def __init__(self, conectar: Conexion | None = None) -> None:
-        self.conectar = conectar
+        self.conectar = conectar if conectar is not None else conectar_lenguaje
 
     def analizar(self, tokens: Sequence[Token]) -> ResultadoParseo:
         analisis = Analisis(tokens)
@@ -99,8 +88,9 @@ class Analisis:
 
     # puntos de enganche para la tarea 4.0 (actividad 4.4)
 
-    def registrar_sentencia(self, tipos: TokenType | Iterable[TokenType],
-                            produccion: Produccion) -> None:
+    def registrar_sentencia(
+        self, tipos: TokenType | Iterable[TokenType], produccion: Produccion
+    ) -> None:
         """Produccion completa de una sentencia que inicia con `tipos`."""
         if isinstance(tipos, TokenType):
             tipos = (tipos,)
@@ -182,8 +172,9 @@ class Analisis:
                 self.control,
                 "Despues de 'barista' se esperaba el nombre de la funcion "
                 f"o 'chorreador', pero se encontro {siguiente.lexema!r}"
-                if siguiente.tipo != TokenType.FIN_ARCHIVO else
-                "Despues de 'barista' se esperaba el nombre de la funcion "
+                if siguiente.tipo != TokenType.FIN_ARCHIVO
+                else "Despues de 'barista' se esperaba el nombre "
+                "de la funcion "
                 "o 'chorreador', pero se encontro fin de archivo",
                 siguiente,
                 (TokenType.IDENTIFICADOR, TokenType.CHORREADOR),
@@ -251,3 +242,25 @@ class Analisis:
     def ejecutar(self) -> ResultadoParseo:
         arbol = self.programa()
         return ResultadoParseo(arbol, tuple(self.control.errores))
+
+
+def conectar_lenguaje(analisis: Analisis) -> None:
+    """Conecta las producciones reales a un cursor y registro de errores."""
+    from parser.producciones_control import ProduccionesControl
+    from parser.producciones_cuanticas import ProduccionesCuanticas
+
+    control = ProduccionesControl(
+        analisis.control,
+        analisis.sentencia,
+        analisis.expresion,
+        analisis.tipo,
+        recuperar_errores=True,
+    )
+    cuanticas = ProduccionesCuanticas(analisis.control)
+    analisis.registrar_sentencia(TokenType.HIERVE, control.condicional)
+    analisis.registrar_sentencia(TokenType.CHORREANDO, control.chorreando)
+    analisis.registrar_sentencia(TokenType.RECOLAR, control.recolar)
+    analisis.registrar_sentencia(INICIO_CUANTICA, cuanticas.sentencia_cuantica)
+    analisis.registrar_funcion(control.funcion)
+    analisis.registrar_principal(control.chorreador)
+    analisis.registrar_medicion(cuanticas.medicion)
