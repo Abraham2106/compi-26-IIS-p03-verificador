@@ -76,10 +76,16 @@ class NodoASA:
         # Copias defensivas: el renderer no debe modificar el arbol del parser.
         if not isinstance(self.clase, ClaseNodo):
             raise TypeError("clase debe pertenecer a ClaseNodo.")
-        if any(not isinstance(k, str) or not isinstance(v, str)
-               for k, v in self.atributos.items()):
-            raise TypeError("Los atributos conservan texto, no valores evaluados.")
-        object.__setattr__(self, "atributos", MappingProxyType(dict(self.atributos)))
+        if any(
+            not isinstance(k, str) or not isinstance(v, str)
+            for k, v in self.atributos.items()
+        ):
+            raise TypeError(
+                "Los atributos conservan texto, no valores evaluados."
+            )
+        object.__setattr__(
+            self, "atributos", MappingProxyType(dict(self.atributos))
+        )
         object.__setattr__(self, "hijos", tuple(self.hijos))
 
     def a_dict(self) -> dict:
@@ -87,8 +93,14 @@ class NodoASA:
         return {
             "clase": self.clase.value,
             "rango": {
-                "inicio": {"linea": self.rango.inicio.linea, "columna": self.rango.inicio.columna},
-                "fin": {"linea": self.rango.fin.linea, "columna": self.rango.fin.columna},
+                "inicio": {
+                    "linea": self.rango.inicio.linea,
+                    "columna": self.rango.inicio.columna,
+                },
+                "fin": {
+                    "linea": self.rango.fin.linea,
+                    "columna": self.rango.fin.columna,
+                },
             },
             "atributos": dict(self.atributos),
             "hijos": [hijo.a_dict() for hijo in self.hijos],

@@ -15,6 +15,7 @@ from parser.producciones_control import ProduccionesControl
 from scanner import TokenType
 from parser.producciones_cuanticas import ProduccionesCuanticas
 
+
 def crear_control(fuente):
     entrada = explorar_para_parser(fuente)
     return ControlSintactico(FlujoTokens(entrada.tokens_para_parser()))
@@ -246,7 +247,9 @@ class TestCondicionales(unittest.TestCase):
         self.assertEqual(control.flujo.mirar().tipo, TokenType.FIN_ARCHIVO)
 
     def test_hierve_con_enfria(self):
-        control, producciones = self.crear_producciones("hierve (fuerte) {} enfria {}")
+        control, producciones = self.crear_producciones(
+            "hierve (fuerte) {} enfria {}"
+        )
 
         nodo = producciones.condicional()
 
@@ -430,7 +433,9 @@ class TestFunciones(unittest.TestCase):
         )
 
     def test_funcion_con_parametros(self):
-        control = crear_control("barista preparar(grano cantidad, cafe listo) {}")
+        control = crear_control(
+            "barista preparar(grano cantidad, cafe listo) {}"
+        )
 
         def analizar_tipo():
             token = control.esperar(

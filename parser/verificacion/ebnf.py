@@ -1,10 +1,18 @@
-"""Auditoria estricta de EBNF y reconocedor de pruebas, no parser de produccion."""
+"""
+Auditoria estricta de EBNF y reconocedor de pruebas, no parser de
+produccion.
+"""
 
 import re
 from functools import lru_cache
 from pathlib import Path
 
-from scanner.tokens import PALABRAS_RESERVADAS, SIMBOLOS_DOBLES, SIMBOLOS_SIMPLES, TokenType
+from scanner.tokens import (
+    PALABRAS_RESERVADAS,
+    SIMBOLOS_DOBLES,
+    SIMBOLOS_SIMPLES,
+    TokenType,
+)
 
 LEXICOS = {
     "identificador": TokenType.IDENTIFICADOR,
@@ -12,7 +20,12 @@ LEXICOS = {
     "numero_decimal": TokenType.DECIMAL,
     "cadena": TokenType.CADENA,
 }
-SOLO_LEXICOS = set(LEXICOS) | {"letra", "digito", "caracter_cadena", "comentario"}
+SOLO_LEXICOS = set(LEXICOS) | {
+    "letra",
+    "digito",
+    "caracter_cadena",
+    "comentario",
+}
 CATALOGO = {**PALABRAS_RESERVADAS, **SIMBOLOS_DOBLES, **SIMBOLOS_SIMPLES}
 
 
@@ -23,7 +36,9 @@ def tokenizar_ebnf(texto):
     while posicion < len(texto):
         m = patron.match(texto, posicion)
         if not m:
-            raise ValueError(f"EBNF invalida cerca de {texto[posicion:posicion+30]!r}")
+            raise ValueError(
+                f"EBNF invalida cerca de {texto[posicion : posicion + 30]!r}"
+            )
         if not m[0].isspace():
             salida.append(m[0])
         posicion = m.end()
@@ -54,7 +69,9 @@ def produccion(texto):
                 if posicion >= len(tokens) or tokens[posicion] != fin:
                     raise ValueError(f"EBNF: falta cierre {fin}")
                 posicion += 1
-                nodos.append(({"{": "star", "[": "opt", "(": "group"}[t], contenido))
+                nodos.append(
+                    ({"{": "star", "[": "opt", "(": "group"}[t], contenido)
+                )
             elif t.startswith('"'):
                 nodos.append(("terminal", t[1:-1]))
             elif t in ("}", "]", ")"):
@@ -62,7 +79,9 @@ def produccion(texto):
             else:
                 nodos.append(("ref", t))
         if not nodos:
-            raise ValueError("EBNF: alternativa vacia; usar una parte opcional explicita")
+            raise ValueError(
+                "EBNF: alternativa vacia; usar una parte opcional explicita"
+            )
         return ("seq", nodos)
 
     resultado = alternativa()
@@ -95,17 +114,23 @@ class Gramatica:
             nombres.add(nombre)
             if nombre in SOLO_LEXICOS:
                 continue
-            limite = marcas[i+1].start() if i+1 < len(marcas) else len(fuente)
-            self.reglas[nombre] = produccion(fuente[marca.end():limite])
+            limite = (
+                marcas[i + 1].start() if i + 1 < len(marcas) else len(fuente)
+            )
+            self.reglas[nombre] = produccion(fuente[marca.end() : limite])
         if "programa" not in self.reglas:
             raise ValueError("Falta la produccion inicial programa")
         refs = set().union(*(referencias(n) for n in self.reglas.values()))
         faltantes = refs - set(self.reglas) - set(LEXICOS)
         if faltantes:
             raise ValueError(f"Producciones sin definir: {sorted(faltantes)}")
-        self.terminales = set().union(*(referencias(n, "terminal") for n in self.reglas.values()))
+        self.terminales = set().union(
+            *(referencias(n, "terminal") for n in self.reglas.values())
+        )
         if self.terminales - set(CATALOGO):
-            raise ValueError(f"Terminales sin token: {self.terminales - set(CATALOGO)}")
+            raise ValueError(
+                f"Terminales sin token: {self.terminales - set(CATALOGO)}"
+            )
         self.nullable = set()
         while True:
             nuevos = {k for k, n in self.reglas.items() if self.anulable(n)}
@@ -154,7 +179,11 @@ class Gramatica:
                 return v in productivas
             if k == "group":
                 return produce(v)
-            return all(produce(h) for h in v) if k == "seq" else any(produce(h) for h in v)
+            return (
+                all(produce(h) for h in v)
+                if k == "seq"
+                else any(produce(h) for h in v)
+            )
 
         while True:
             nuevas = {k for k, n in self.reglas.items() if produce(n)}
@@ -162,7 +191,10 @@ class Gramatica:
                 break
             productivas |= nuevas
         if set(self.reglas) - productivas:
-            raise ValueError(f"Producciones improductivas: {sorted(set(self.reglas) - productivas)}")
+            raise ValueError(
+                "Producciones improductivas: "
+                f"{sorted(set(self.reglas) - productivas)}"
+            )
 
         def repetir(n):
             k, v = n
@@ -173,6 +205,7 @@ class Gramatica:
             elif k in ("seq", "alt"):
                 for hijo in v:
                     repetir(hijo)
+
         grafo = {k: self.iniciales(n) for k, n in self.reglas.items()}
         for origen in self.reglas:
             pendientes = list(grafo[origen])
@@ -195,7 +228,9 @@ class Gramatica:
                     pendientes.extend(referencias(self.reglas[actual]))
         sobrantes = set(self.reglas) - alcanzables
         if sobrantes:
-            raise ValueError(f"Producciones inalcanzables: {sorted(sobrantes)}")
+            raise ValueError(
+                f"Producciones inalcanzables: {sorted(sobrantes)}"
+            )
 
     def construir_bnf(self):
         self.bnf = {}
@@ -233,7 +268,11 @@ class Gramatica:
     def first_secuencia(self, secuencia):
         resultado = set()
         for simbolo in secuencia:
-            parte = {simbolo[2:]} if simbolo.startswith("T:") else self.first[simbolo[2:]]
+            parte = (
+                {simbolo[2:]}
+                if simbolo.startswith("T:")
+                else self.first[simbolo[2:]]
+            )
             resultado |= parte - {"EPSILON"}
             if "EPSILON" not in parte:
                 return resultado
@@ -259,7 +298,7 @@ class Gramatica:
                     for i, simbolo in enumerate(rama):
                         if simbolo.startswith("N:"):
                             destino = simbolo[2:]
-                            siguientes = self.first_secuencia(rama[i+1:])
+                            siguientes = self.first_secuencia(rama[i + 1 :])
                             nuevos = siguientes - {"EPSILON"}
                             if "EPSILON" in siguientes:
                                 nuevos |= self.follow[nombre]
@@ -271,12 +310,23 @@ class Gramatica:
             predicciones = []
             for rama in ramas:
                 f = self.first_secuencia(rama)
-                predicciones.append((f - {"EPSILON"}) | (self.follow[nombre] if "EPSILON" in f else set()))
+                predicciones.append(
+                    (f - {"EPSILON"})
+                    | (self.follow[nombre] if "EPSILON" in f else set())
+                )
             for i, a in enumerate(predicciones):
-                for j in range(i+1, len(predicciones)):
+                for j in range(i + 1, len(predicciones)):
                     compartidos = a & predicciones[j]
                     if compartidos:
-                        self.conflictos.append((self.dueno[nombre], nombre, i, j, sorted(compartidos)))
+                        self.conflictos.append(
+                            (
+                                self.dueno[nombre],
+                                nombre,
+                                i,
+                                j,
+                                sorted(compartidos),
+                            )
+                        )
 
     def acepta(self, tokens):
         tokens = tuple(tokens)
@@ -286,13 +336,23 @@ class Gramatica:
         @lru_cache(None)
         def regla(nombre, posicion):
             if nombre in LEXICOS:
-                return frozenset({posicion+1}) if posicion < len(tokens) and tokens[posicion].tipo is LEXICOS[nombre] else frozenset()
+                return (
+                    frozenset({posicion + 1})
+                    if posicion < len(tokens)
+                    and tokens[posicion].tipo is LEXICOS[nombre]
+                    else frozenset()
+                )
             return reconocer(self.reglas[nombre], posicion)
 
         def reconocer(n, posicion):
             k, v = n
             if k == "terminal":
-                return frozenset({posicion+1}) if posicion < len(tokens) and tokens[posicion].tipo is CATALOGO[v] else frozenset()
+                return (
+                    frozenset({posicion + 1})
+                    if posicion < len(tokens)
+                    and tokens[posicion].tipo is CATALOGO[v]
+                    else frozenset()
+                )
             if k == "ref":
                 return regla(v, posicion)
             if k == "group":
@@ -302,7 +362,11 @@ class Gramatica:
             if k == "seq":
                 finales = {posicion}
                 for hijo in v:
-                    finales = {fin for inicio in finales for fin in reconocer(hijo, inicio)}
+                    finales = {
+                        fin
+                        for inicio in finales
+                        for fin in reconocer(hijo, inicio)
+                    }
                 return frozenset(finales)
             if k == "opt":
                 return frozenset({posicion}) | reconocer(v, posicion)

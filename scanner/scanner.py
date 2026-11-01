@@ -8,10 +8,22 @@ from typing import List, Optional, Tuple
 
 if __package__:
     from .errores import ErrorLexico
-    from .tokens import Token, TokenType, PALABRAS_RESERVADAS, SIMBOLOS_DOBLES, SIMBOLOS_SIMPLES
+    from .tokens import (
+        Token,
+        TokenType,
+        PALABRAS_RESERVADAS,
+        SIMBOLOS_DOBLES,
+        SIMBOLOS_SIMPLES,
+    )
 else:  # Compatibilidad: python scanner/main.py archivo.qc
     from errores import ErrorLexico
-    from tokens import Token, TokenType, PALABRAS_RESERVADAS, SIMBOLOS_DOBLES, SIMBOLOS_SIMPLES
+    from tokens import (
+        Token,
+        TokenType,
+        PALABRAS_RESERVADAS,
+        SIMBOLOS_DOBLES,
+        SIMBOLOS_SIMPLES,
+    )
 
 LETRAS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
 DIGITOS = "0123456789"
@@ -62,7 +74,7 @@ class Scanner:
     def _emitir(self, tipo: TokenType, lexema: Optional[str] = None) -> None:
         """Conserva en el token la posicion inicial del lexema."""
         if lexema is None:
-            lexema = self.fuente[self._ini_pos:self.pos]
+            lexema = self.fuente[self._ini_pos : self.pos]
 
         self.tokens.append(
             Token(
@@ -80,7 +92,7 @@ class Scanner:
     ) -> None:
         """Registra el error y permite continuar el analisis."""
         if lexema is None:
-            lexema = self.fuente[self._ini_pos:self.pos]
+            lexema = self.fuente[self._ini_pos : self.pos]
 
         self.errores.append(
             ErrorLexico(
@@ -168,14 +180,17 @@ class Scanner:
         self._avanzar()
         self._registrar_error("Simbolo desconocido")
 
-
-    def _leer_identificador(self) :
+    def _leer_identificador(self):
         """Reconoce palabras reservadas e identificadores."""
 
-        while not self._fin() and (self._actual() in LETRAS or self._actual() in DIGITOS or self._actual() == "_"):
+        while not self._fin() and (
+            self._actual() in LETRAS
+            or self._actual() in DIGITOS
+            or self._actual() == "_"
+        ):
             self._avanzar()
 
-        lexema = self.fuente[self._ini_pos:self.pos]
+        lexema = self.fuente[self._ini_pos : self.pos]
 
         tipo = PALABRAS_RESERVADAS.get(lexema, TokenType.IDENTIFICADOR)
 
@@ -206,7 +221,7 @@ class Scanner:
 
         self._avanzar()
 
-        while not self._fin() and self._actual() not in ('"', '\n', '\r'):
+        while not self._fin() and self._actual() not in ('"', "\n", "\r"):
             self._avanzar()
 
         if not self._fin() and self._actual() == '"':
@@ -215,7 +230,6 @@ class Scanner:
 
         else:
             self._registrar_error("Cadena sin cerrar")
-
 
     def _leer_simbolo(self) -> None:
         """Reconoce operadores y delimitadores del lenguaje."""
@@ -236,6 +250,7 @@ class Scanner:
             return
 
         self._error_simbolo_desconocido()
+
 
 """
 Se debe detectar el fin de la entrada y consultar el caracter actual.

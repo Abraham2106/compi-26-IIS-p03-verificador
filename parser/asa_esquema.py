@@ -14,15 +14,34 @@ from typing import Iterator, List, Tuple
 from parser.integracion import ClaseNodo as C, NodoASA
 from scanner import TokenType
 
-EXPRESIONES = frozenset({
-    C.BINARIA, C.UNARIA, C.IDENTIFICADOR, C.LITERAL, C.LISTA,
-    C.LLAMADA, C.OPERACION_LISTA, C.MEDICION,
-})
+EXPRESIONES = frozenset(
+    {
+        C.BINARIA,
+        C.UNARIA,
+        C.IDENTIFICADOR,
+        C.LITERAL,
+        C.LISTA,
+        C.LLAMADA,
+        C.OPERACION_LISTA,
+        C.MEDICION,
+    }
+)
 
-SENTENCIAS = frozenset({
-    C.LOCAL, C.ASIGNACION, C.LLAMADA, C.OPERACION_LISTA, C.CONDICIONAL,
-    C.MIENTRAS, C.PARA_CADA, C.RETORNO, C.QUBIT, C.COMPUERTA, C.MEDICION,
-})
+SENTENCIAS = frozenset(
+    {
+        C.LOCAL,
+        C.ASIGNACION,
+        C.LLAMADA,
+        C.OPERACION_LISTA,
+        C.CONDICIONAL,
+        C.MIENTRAS,
+        C.PARA_CADA,
+        C.RETORNO,
+        C.QUBIT,
+        C.COMPUERTA,
+        C.MEDICION,
+    }
+)
 
 DECLARACIONES = frozenset({C.GLOBAL, C.FUNCION})
 
@@ -45,83 +64,110 @@ def _muchos(clases) -> Hueco:
 
 @dataclass(frozen=True)
 class EsquemaNodo:
-    produccion: str                  # produccion de la EBNF que lo origina
-    atributos: frozenset             # claves de texto exactas
-    hijos: Tuple[Hueco, ...] = ()    # patron ordenado de hijos
+    produccion: str  # produccion de la EBNF que lo origina
+    atributos: frozenset  # claves de texto exactas
+    hijos: Tuple[Hueco, ...] = ()  # patron ordenado de hijos
 
 
 ESQUEMA = {
     C.PROGRAMA: EsquemaNodo(
-        "programa", frozenset(),
-        (_muchos(DECLARACIONES), _uno({C.PRINCIPAL}))),
+        "programa", frozenset(), (_muchos(DECLARACIONES), _uno({C.PRINCIPAL}))
+    ),
     C.GLOBAL: EsquemaNodo(
-        "declaracion_global", frozenset({"nombre", "tipo"}),
-        (_opcional(EXPRESIONES),)),
+        "declaracion_global",
+        frozenset({"nombre", "tipo"}),
+        (_opcional(EXPRESIONES),),
+    ),
     C.FUNCION: EsquemaNodo(
-        "declaracion_funcion", frozenset({"nombre"}),
-        (_muchos({C.PARAMETRO}), _uno({C.BLOQUE}))),
+        "declaracion_funcion",
+        frozenset({"nombre"}),
+        (_muchos({C.PARAMETRO}), _uno({C.BLOQUE})),
+    ),
     C.PRINCIPAL: EsquemaNodo(
-        "declaracion_chorreador", frozenset({"nombre"}),
-        (_uno({C.BLOQUE}),)),
-    C.PARAMETRO: EsquemaNodo(
-        "parametro", frozenset({"nombre", "tipo"})),
-    C.BLOQUE: EsquemaNodo(
-        "bloque", frozenset(), (_muchos(SENTENCIAS),)),
+        "declaracion_chorreador", frozenset({"nombre"}), (_uno({C.BLOQUE}),)
+    ),
+    C.PARAMETRO: EsquemaNodo("parametro", frozenset({"nombre", "tipo"})),
+    C.BLOQUE: EsquemaNodo("bloque", frozenset(), (_muchos(SENTENCIAS),)),
     C.LOCAL: EsquemaNodo(
-        "declaracion_var_local", frozenset({"nombre", "tipo"}),
-        (_opcional(EXPRESIONES),)),
+        "declaracion_var_local",
+        frozenset({"nombre", "tipo"}),
+        (_opcional(EXPRESIONES),),
+    ),
     C.ASIGNACION: EsquemaNodo(
-        "sentencia_identificador", frozenset({"nombre"}),
-        (_uno(EXPRESIONES),)),
+        "sentencia_identificador", frozenset({"nombre"}), (_uno(EXPRESIONES),)
+    ),
     C.LLAMADA: EsquemaNodo(
-        "sufijo_llamada", frozenset({"nombre"}),
-        (_muchos(EXPRESIONES),)),
+        "sufijo_llamada", frozenset({"nombre"}), (_muchos(EXPRESIONES),)
+    ),
     C.OPERACION_LISTA: EsquemaNodo(
-        "sufijo_lista", frozenset({"receptor", "metodo"}),
-        (_uno(EXPRESIONES),)),
+        "sufijo_lista", frozenset({"receptor", "metodo"}), (_uno(EXPRESIONES),)
+    ),
     C.CONDICIONAL: EsquemaNodo(
-        "estructura_condicional", frozenset(),
-        (_uno(EXPRESIONES), _uno({C.BLOQUE}), _opcional({C.BLOQUE}))),
+        "estructura_condicional",
+        frozenset(),
+        (_uno(EXPRESIONES), _uno({C.BLOQUE}), _opcional({C.BLOQUE})),
+    ),
     C.MIENTRAS: EsquemaNodo(
-        "bucle_chorreando", frozenset(),
-        (_uno(EXPRESIONES), _uno({C.BLOQUE}))),
+        "bucle_chorreando", frozenset(), (_uno(EXPRESIONES), _uno({C.BLOQUE}))
+    ),
     C.PARA_CADA: EsquemaNodo(
-        "bucle_recolar", frozenset({"tipo", "nombre", "lista"}),
-        (_uno({C.BLOQUE}),)),
+        "bucle_recolar",
+        frozenset({"tipo", "nombre", "lista"}),
+        (_uno({C.BLOQUE}),),
+    ),
     C.RETORNO: EsquemaNodo(
-        "retorno_degustar", frozenset(), (_opcional(EXPRESIONES),)),
-    C.QUBIT: EsquemaNodo(
-        "declaracion_qubit", frozenset({"nombre"})),
+        "retorno_degustar", frozenset(), (_opcional(EXPRESIONES),)
+    ),
+    C.QUBIT: EsquemaNodo("declaracion_qubit", frozenset({"nombre"})),
     C.COMPUERTA: EsquemaNodo(
-        "operacion_cuantica", frozenset({"compuerta"}),
-        (_uno({C.IDENTIFICADOR}), _opcional({C.IDENTIFICADOR}))),
+        "operacion_cuantica",
+        frozenset({"compuerta"}),
+        (_uno({C.IDENTIFICADOR}), _opcional({C.IDENTIFICADOR})),
+    ),
     C.MEDICION: EsquemaNodo(
-        "medicion_cuantica", frozenset(),
-        (_uno({C.IDENTIFICADOR}),)),
+        "medicion_cuantica", frozenset(), (_uno({C.IDENTIFICADOR}),)
+    ),
     C.BINARIA: EsquemaNodo(
-        "expresion_*", frozenset({"operador"}),
-        (_uno(EXPRESIONES), _uno(EXPRESIONES))),
+        "expresion_*",
+        frozenset({"operador"}),
+        (_uno(EXPRESIONES), _uno(EXPRESIONES)),
+    ),
     C.UNARIA: EsquemaNodo(
-        "expresion_not / unario", frozenset({"operador"}),
-        (_uno(EXPRESIONES),)),
-    C.IDENTIFICADOR: EsquemaNodo(
-        "identificador", frozenset({"nombre"})),
-    C.LITERAL: EsquemaNodo(
-        "literal", frozenset({"categoria", "lexema"})),
-    C.LISTA: EsquemaNodo(
-        "arreglo", frozenset(), (_muchos(EXPRESIONES),)),
+        "expresion_not / unario", frozenset({"operador"}), (_uno(EXPRESIONES),)
+    ),
+    C.IDENTIFICADOR: EsquemaNodo("identificador", frozenset({"nombre"})),
+    C.LITERAL: EsquemaNodo("literal", frozenset({"categoria", "lexema"})),
+    C.LISTA: EsquemaNodo("arreglo", frozenset(), (_muchos(EXPRESIONES),)),
 }
 
 _TIPO = re.compile(r"^(taza )*(grano|poso|granoMolido|cafe)$")
-_OPERADORES_BINARIOS = frozenset({
-    "SinAzucar", "ConAzucar", "==", "!=", "<", "<=", ">", ">=",
-    "+", "-", "*", "/", "%",
-})
+_OPERADORES_BINARIOS = frozenset(
+    {
+        "SinAzucar",
+        "ConAzucar",
+        "==",
+        "!=",
+        "<",
+        "<=",
+        ">",
+        ">=",
+        "+",
+        "-",
+        "*",
+        "/",
+        "%",
+    }
+)
 _OPERADORES_UNARIOS = frozenset({"Amargo", "+", "-"})
 _CATEGORIAS_LITERAL = frozenset(
-    t.name for t in (
-        TokenType.ENTERO, TokenType.DECIMAL, TokenType.CADENA,
-        TokenType.FUERTE, TokenType.RALO, TokenType.DESCAFEINADO,
+    t.name
+    for t in (
+        TokenType.ENTERO,
+        TokenType.DECIMAL,
+        TokenType.CADENA,
+        TokenType.FUERTE,
+        TokenType.RALO,
+        TokenType.DESCAFEINADO,
         TokenType.SE_QUEMO_EL_CAFE,
     )
 )
@@ -133,8 +179,11 @@ def _coincide_patron(clases: List[C], patron: Tuple[Hueco, ...]) -> bool:
     posicion = 0
     for admitidas, minimo, maximo in patron:
         cuenta = 0
-        while (posicion < len(clases) and clases[posicion] in admitidas
-               and (maximo is None or cuenta < maximo)):
+        while (
+            posicion < len(clases)
+            and clases[posicion] in admitidas
+            and (maximo is None or cuenta < maximo)
+        ):
             posicion += 1
             cuenta += 1
         if cuenta < minimo:
@@ -159,8 +208,10 @@ def _problemas_de_valores(nodo: NodoASA) -> Iterator[str]:
         if a["compuerta"] not in esperadas:
             yield f"compuerta invalida: {a['compuerta']!r}"
         elif len(nodo.hijos) != esperadas[a["compuerta"]]:
-            yield (f"{a['compuerta']} requiere {esperadas[a['compuerta']]} "
-                   f"qubit(s), tiene {len(nodo.hijos)}")
+            yield (
+                f"{a['compuerta']} requiere {esperadas[a['compuerta']]} "
+                f"qubit(s), tiene {len(nodo.hijos)}"
+            )
     if nodo.clase == C.PRINCIPAL and a["nombre"] != "chorreador":
         yield "FuncionPrincipal debe llamarse 'chorreador'"
 
@@ -172,11 +223,15 @@ def problemas_nodo(nodo: NodoASA) -> List[str]:
     if set(nodo.atributos) != esquema.atributos:
         problemas.append(
             f"atributos {sorted(nodo.atributos)} en lugar de "
-            f"{sorted(esquema.atributos)}")
+            f"{sorted(esquema.atributos)}"
+        )
     if not _coincide_patron([h.clase for h in nodo.hijos], esquema.hijos):
         problemas.append(
-            "hijos " + str([h.clase.value for h in nodo.hijos])
-            + " no corresponden a " + esquema.produccion)
+            "hijos "
+            + str([h.clase.value for h in nodo.hijos])
+            + " no corresponden a "
+            + esquema.produccion
+        )
     if set(nodo.atributos) == esquema.atributos:
         problemas.extend(_problemas_de_valores(nodo))
     return problemas

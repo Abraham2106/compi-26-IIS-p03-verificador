@@ -14,19 +14,18 @@ else:
     from tokens import Token
 
 EXTENSION_FUENTE = ".qc"
-CODIFICACION = "utf-8-sig"  
+CODIFICACION = "utf-8-sig"
 COD_OK = 0
 COD_ERRORES_LEXICOS = 1
 COD_USO = 2
 
-def explorar_archivo(ruta : Path) -> Tuple[List[Token], list[ErrorLexico]]:
+
+def explorar_archivo(ruta: Path) -> Tuple[List[Token], list[ErrorLexico]]:
     fuente = ruta.read_text(encoding=CODIFICACION)
     return Scanner(fuente).escanear()
 
+
 def main(argv: list[str]) -> int:
-
-    programa = Path(argv[0]).name
-
     if len(argv) != 2:
         print("Uso: python main.py <archivo.qc>")
         return COD_USO
@@ -50,6 +49,7 @@ def main(argv: list[str]) -> int:
         print(error)
 
     return COD_ERRORES_LEXICOS if errores else COD_OK
+
 
 if __name__ == "__main__":
     sys.exit(main(sys.argv))

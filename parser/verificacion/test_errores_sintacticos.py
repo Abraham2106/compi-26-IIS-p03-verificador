@@ -55,7 +55,7 @@ class TestErroresSintacticos(unittest.TestCase):
         self.assertEqual(encontrado.tipo, TokenType.PUNTO_COMA)
 
         self.assertEqual(control.flujo.mirar().tipo, TokenType.CAFE)
-    
+
     def test_registro_de_errores(self):
         control = crear_control("25 }")
 
@@ -75,6 +75,7 @@ class TestErroresSintacticos(unittest.TestCase):
             control.errores[0].esperados,
             (TokenType.PUNTO_COMA,),
         )
+
 
 if __name__ == "__main__":
     unittest.main()

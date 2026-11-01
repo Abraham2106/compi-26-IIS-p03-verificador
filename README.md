@@ -38,3 +38,13 @@ python -m unittest discover -s parser/verificacion -t . -v
 ```
 
 El parser requiere Python 3.10 o posterior.
+
+## Revision de estilo
+
+Ruff 0.12.11 se utilizo para revisar todo `parser/` y `scanner/`.
+Las reglas E, F y W y el limite de 79 columnas estan en `ruff.toml`.
+
+```bash
+python -m ruff check parser scanner
+python -m ruff format --check parser scanner
+```

@@ -1,4 +1,7 @@
-"""Adapta la salida real del Scanner sin reescanear ni convertir sus lexemas."""
+"""
+Adapta la salida real del Scanner sin reescanear ni convertir sus
+lexemas.
+"""
 
 from dataclasses import dataclass
 from typing import Sequence, Tuple
@@ -7,7 +10,10 @@ from scanner import ErrorLexico, Scanner, Token, TokenType
 
 
 class EntradaConErroresLexicos(ValueError):
-    """El parser no debe aceptar como limpio un texto con tokens descartados."""
+    """
+    El parser no debe aceptar como limpio un texto con tokens
+    descartados.
+    """
 
 
 @dataclass(frozen=True)
@@ -22,7 +28,10 @@ class EntradaParser:
     def tokens_para_parser(self) -> Tuple[Token, ...]:
         if not self.apta:
             raise EntradaConErroresLexicos(
-                "Hay errores lexicos: mostrar errores_lexicos antes de invocar el parser."
+                (
+                    "Hay errores lexicos: mostrar errores_lexicos antes de "
+                    "invocar el parser."
+                )
             )
         return self.tokens
 
@@ -46,10 +55,15 @@ class FlujoTokens:
 
     def __init__(self, tokens: Sequence[Token]) -> None:
         self._tokens = tuple(tokens)
-        if not self._tokens or self._tokens[-1].tipo is not TokenType.FIN_ARCHIVO:
+        if (
+            not self._tokens
+            or self._tokens[-1].tipo is not TokenType.FIN_ARCHIVO
+        ):
             raise ValueError("La secuencia debe terminar con FIN_ARCHIVO.")
         if any(t.tipo is TokenType.FIN_ARCHIVO for t in self._tokens[:-1]):
-            raise ValueError("FIN_ARCHIVO solo puede aparecer una vez, al final.")
+            raise ValueError(
+                "FIN_ARCHIVO solo puede aparecer una vez, al final."
+            )
         self._indice = 0
 
     @property
@@ -63,7 +77,9 @@ class FlujoTokens:
     def mirar(self, adelanto: int = 0) -> Token:
         if adelanto < 0:
             raise ValueError("El adelanto no puede ser negativo.")
-        return self._tokens[min(self._indice + adelanto, len(self._tokens) - 1)]
+        return self._tokens[
+            min(self._indice + adelanto, len(self._tokens) - 1)
+        ]
 
     def avanzar(self) -> Token:
         actual = self.mirar()
