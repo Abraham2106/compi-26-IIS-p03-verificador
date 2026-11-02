@@ -6,7 +6,6 @@ los prefijos (`Amargo`, `+`, `-`) se construyen de derecha a izquierda.
 Las producciones auxiliares no crean nodos propios.
 """
 
-from collections.abc import Callable
 from typing import NoReturn
 
 from parser.asa_constructores import (
@@ -21,6 +20,7 @@ from parser.asa_constructores import (
 )
 from parser.errores_sintacticos import ControlSintactico, FalloSintactico
 from parser.integracion import ErrorSintactico, NodoASA
+from parser.producciones_cuanticas import ProduccionesCuanticas
 from scanner import Token, TokenType
 
 OPERADORES_RELACIONALES = (
@@ -56,8 +56,12 @@ INICIO_EXPRESION = TIPOS_LITERAL + (
 )
 
 
-def fallar(control: ControlSintactico, mensaje: str, encontrado: Token,
-           esperados: tuple[TokenType, ...] = ()) -> NoReturn:
+def fallar(
+    control: ControlSintactico,
+    mensaje: str,
+    encontrado: Token,
+    esperados: tuple[TokenType, ...] = (),
+) -> NoReturn:
     """Registra un error sintactico propio y lo lanza como `esperar`."""
     error = ErrorSintactico(mensaje, encontrado, tuple(esperados))
     control.errores.append(error)
@@ -67,11 +71,13 @@ def fallar(control: ControlSintactico, mensaje: str, encontrado: Token,
 class ProduccionesExpresiones:
     """Analiza expresiones aritmeticas, relacionales y logicas."""
 
-    def __init__(self, control: ControlSintactico,
-                 analizar_medicion: Callable[[], NodoASA]) -> None:
+    def __init__(
+        self,
+        control: ControlSintactico,
+        cuanticas: ProduccionesCuanticas,
+    ) -> None:
         self.control = control
-        # `medir(q)` lo reconoce la extension cuantica (tarea 4.0).
-        self.analizar_medicion = analizar_medicion
+        self.cuanticas = cuanticas
 
     def _tipo_actual(self) -> TokenType:
         return self.control.flujo.mirar().tipo
@@ -159,7 +165,7 @@ class ProduccionesExpresiones:
         if tipo == TokenType.IDENTIFICADOR:
             return self.factor_identificador()
         if tipo == TokenType.MEDIR:
-            return self.analizar_medicion()
+            return self.cuanticas.medicion()
         if tipo == TokenType.PARENTESIS_ABRE:
             abre = self.control.flujo.avanzar()
             interno = self.expresion()
@@ -173,16 +179,20 @@ class ProduccionesExpresiones:
         self.control.esperar(*INICIO_EXPRESION, contexto="expresion")
         raise AssertionError("esperar debia fallar")
 
+    def _argumentos(self, cierre: TokenType) -> list[NodoASA]:
+        argumentos = []
+        if self._tipo_actual() != cierre:
+            argumentos.append(self.expresion())
+            while self._tipo_actual() == TokenType.COMA:
+                self.control.flujo.avanzar()
+                argumentos.append(self.expresion())
+        return argumentos
+
     def arreglo(self) -> NodoASA:
         abre = self.control.esperar(
             TokenType.CORCHETE_ABRE, contexto="arreglo"
         )
-        elementos: list[NodoASA] = []
-        if self._tipo_actual() != TokenType.CORCHETE_CIERRA:
-            elementos.append(self.expresion())
-            while self._tipo_actual() == TokenType.COMA:
-                self.control.flujo.avanzar()
-                elementos.append(self.expresion())
+        elementos = self._argumentos(TokenType.CORCHETE_CIERRA)
         cierra = self.control.esperar(
             TokenType.CORCHETE_CIERRA,
             TokenType.COMA,
@@ -207,12 +217,7 @@ class ProduccionesExpresiones:
         self.control.esperar(
             TokenType.PARENTESIS_ABRE, contexto="llamada a funcion"
         )
-        argumentos: list[NodoASA] = []
-        if self._tipo_actual() != TokenType.PARENTESIS_CIERRA:
-            argumentos.append(self.expresion())
-            while self._tipo_actual() == TokenType.COMA:
-                self.control.flujo.avanzar()
-                argumentos.append(self.expresion())
+        argumentos = self._argumentos(TokenType.PARENTESIS_CIERRA)
         cierra = self.control.esperar(
             TokenType.PARENTESIS_CIERRA,
             TokenType.COMA,

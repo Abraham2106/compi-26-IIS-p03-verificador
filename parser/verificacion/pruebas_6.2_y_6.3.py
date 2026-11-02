@@ -46,8 +46,10 @@ def ejecutar():
         resultados.append({**caso, 'archivo': str(ruta.relative_to(RAIZ)),
                            'correcto_obtenido': resultado.correcto
                            if resultado else None,
-                           'errores_lexicos': [str(e) for e in entrada.errores_lexicos],
-                           'diagnosticos': [e.mensaje for e in resultado.errores]
+                           'errores_lexicos': [
+                               str(e) for e in entrada.errores_lexicos],
+                           'diagnosticos': [
+                               e.mensaje for e in resultado.errores]
                            if resultado else [],
                            'problemas': problemas, 'pasa': not problemas})
     return resultados

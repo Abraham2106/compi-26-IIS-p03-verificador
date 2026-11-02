@@ -1,7 +1,6 @@
 """Analizador descendente con las producciones completas de Quantum Coffee."""
 
-from collections.abc import Callable, Iterable, Sequence
-from typing import NoReturn
+from collections.abc import Sequence
 
 from parser.asa_constructores import crear_programa
 from parser.errores_sintacticos import ControlSintactico, FalloSintactico
@@ -14,6 +13,8 @@ from parser.producciones_expresiones import (
     ProduccionesExpresiones,
     fallar,
 )
+from parser.producciones_control import ProduccionesControl
+from parser.producciones_cuanticas import ProduccionesCuanticas
 from scanner import Token, TokenType
 
 INICIO_CUANTICA = (
@@ -40,97 +41,20 @@ INICIO_SENTENCIA = (
 INICIO_DECLARACION = (TokenType.CAFETERIA, TokenType.BARISTA)
 
 
-# Construcciones que el nucleo reconoce pero cuya produccion es de la 4.0.
-INICIO_EXTERNAS = INICIO_CUANTICA + (
-    TokenType.HIERVE,
-    TokenType.CHORREANDO,
-    TokenType.RECOLAR,
-)
-
-Conexion = Callable[["Analisis"], None]
-Produccion = Callable[[], NodoASA]
-
-
 class Analizador:
-    """Valida la estructura de un programa y construye su ASA.
-
-    `conectar` recibe el `Analisis` de cada corrida y registra en el las
-    producciones de la tarea 4.0. Con errores, `ResultadoParseo.correcto`
-    siempre es falso.
-    """
-
-    def __init__(self, conectar: Conexion | None = None) -> None:
-        self.conectar = conectar if conectar is not None else conectar_lenguaje
-
     def analizar(self, tokens: Sequence[Token]) -> ResultadoParseo:
-        analisis = Analisis(tokens)
-        if self.conectar is not None:
-            self.conectar(analisis)
-        return analisis.ejecutar()
-
-
-class Analisis:
-    """Estado de una sola corrida: cursor, errores y producciones."""
-
-    def __init__(self, tokens: Sequence[Token]) -> None:
         self.control = ControlSintactico(FlujoTokens(tokens))
         self.flujo = self.control.flujo
+        self.cuanticas = ProduccionesCuanticas(self.control)
         self.expresiones = ProduccionesExpresiones(
-            self.control, self._medicion
+            self.control, self.cuanticas
         )
         self.declaraciones = ProduccionesDeclaraciones(
             self.control, self.expresiones
         )
-        self._sentencias: dict[TokenType, Produccion] = {}
-        self._funcion: Produccion | None = None
-        self._principal: Produccion | None = None
-        self._medicion_externa: Produccion | None = None
-
-    # puntos de enganche para la tarea 4.0 (actividad 4.4)
-
-    def registrar_sentencia(
-        self, tipos: TokenType | Iterable[TokenType], produccion: Produccion
-    ) -> None:
-        """Produccion completa de una sentencia que inicia con `tipos`."""
-        if isinstance(tipos, TokenType):
-            tipos = (tipos,)
-        for tipo in tipos:
-            self._sentencias[tipo] = produccion
-
-    def registrar_funcion(self, produccion: Produccion) -> None:
-        """`barista nombre(...) bloque`, con el cursor en `barista`."""
-        self._funcion = produccion
-
-    def registrar_principal(self, produccion: Produccion) -> None:
-        """`barista chorreador() bloque`, con el cursor en `barista`."""
-        self._principal = produccion
-
-    def registrar_medicion(self, produccion: Produccion) -> None:
-        """`medir(q)` usado dentro de una expresion."""
-        self._medicion_externa = produccion
-
-    # acceso para las producciones externas
-
-    def expresion(self) -> NodoASA:
-        return self.expresiones.expresion()
-
-    def tipo(self) -> str:
-        return self.declaraciones.tipo()
-
-    # sentencias
-
-    def _no_conectada(self, nombre: str) -> NoReturn:
-        fallar(
-            self.control,
-            f"La construccion '{nombre}' aun no esta conectada al nucleo "
-            "(actividad 4.4)",
-            self.flujo.mirar(),
-        )
-
-    def _medicion(self) -> NodoASA:
-        if self._medicion_externa is None:
-            self._no_conectada("medir")
-        return self._medicion_externa()
+        self.estructuras = ProduccionesControl(self)
+        arbol = self.programa()
+        return ResultadoParseo(arbol, tuple(self.control.errores))
 
     def sentencia(self) -> NodoASA:
         """Elige la produccion de `sentencia` con el token actual."""
@@ -143,15 +67,18 @@ class Analisis:
             return self.declaraciones.sentencia_identificador()
         if tipo == TokenType.DEGUSTAR:
             return self.declaraciones.retorno()
-        if tipo in self._sentencias:
-            return self._sentencias[tipo]()
-        if tipo in INICIO_EXTERNAS:
-            self._no_conectada(token.lexema)
+        if tipo == TokenType.HIERVE:
+            return self.estructuras.condicional()
+        if tipo == TokenType.CHORREANDO:
+            return self.estructuras.chorreando()
+        if tipo == TokenType.RECOLAR:
+            return self.estructuras.recolar()
+        if tipo in INICIO_CUANTICA:
+            return self.cuanticas.sentencia_cuantica()
 
         self.control.esperar(*INICIO_SENTENCIA, contexto="sentencia")
         raise AssertionError("esperar debia fallar")
 
-    # programa
 
     def _declaracion_de_programa(self) -> NodoASA | None:
         """Una global o funcion; None cuando llega `barista chorreador`."""
@@ -165,9 +92,7 @@ class Analisis:
             if siguiente.tipo == TokenType.CHORREADOR:
                 return None
             if siguiente.tipo == TokenType.IDENTIFICADOR:
-                if self._funcion is None:
-                    self._no_conectada("barista")
-                return self._funcion()
+                return self.estructuras.funcion()
             fallar(
                 self.control,
                 "Despues de 'barista' se esperaba el nombre de la funcion "
@@ -195,7 +120,7 @@ class Analisis:
     def _sincronizar_declaracion(self, indice_inicial: int) -> None:
         """Salta hasta la siguiente declaracion de nivel superior."""
         if self.flujo.indice == indice_inicial:
-            self.flujo.avanzar()  # garantiza progreso
+            self.flujo.avanzar()
         while self.flujo.mirar().tipo not in (
             *INICIO_DECLARACION,
             TokenType.FIN_ARCHIVO,
@@ -211,7 +136,7 @@ class Analisis:
                 nodo = self._declaracion_de_programa()
             except FalloSintactico:
                 if self.flujo.en_fin:
-                    break  # sin chorreador: ya se informo
+                    break
                 self._sincronizar_declaracion(indice)
                 continue
             if nodo is None:
@@ -222,9 +147,7 @@ class Analisis:
             return None
 
         try:
-            if self._principal is None:
-                self._no_conectada("chorreador")
-            principal = self._principal()
+            principal = self.estructuras.chorreador()
             if not self.flujo.en_fin:
                 extra = self.flujo.mirar()
                 fallar(
@@ -238,29 +161,3 @@ class Analisis:
             return None
 
         return crear_programa(declaraciones, principal)
-
-    def ejecutar(self) -> ResultadoParseo:
-        arbol = self.programa()
-        return ResultadoParseo(arbol, tuple(self.control.errores))
-
-
-def conectar_lenguaje(analisis: Analisis) -> None:
-    """Conecta las producciones reales a un cursor y registro de errores."""
-    from parser.producciones_control import ProduccionesControl
-    from parser.producciones_cuanticas import ProduccionesCuanticas
-
-    control = ProduccionesControl(
-        analisis.control,
-        analisis.sentencia,
-        analisis.expresion,
-        analisis.tipo,
-        recuperar_errores=True,
-    )
-    cuanticas = ProduccionesCuanticas(analisis.control)
-    analisis.registrar_sentencia(TokenType.HIERVE, control.condicional)
-    analisis.registrar_sentencia(TokenType.CHORREANDO, control.chorreando)
-    analisis.registrar_sentencia(TokenType.RECOLAR, control.recolar)
-    analisis.registrar_sentencia(INICIO_CUANTICA, cuanticas.sentencia_cuantica)
-    analisis.registrar_funcion(control.funcion)
-    analisis.registrar_principal(control.chorreador)
-    analisis.registrar_medicion(cuanticas.medicion)
