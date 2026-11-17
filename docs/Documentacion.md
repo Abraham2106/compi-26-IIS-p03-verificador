@@ -6,10 +6,11 @@ EBNF del parser y entrada del verificador de gramatica.
 
 ```ebnf
 tipo ::= "grano" | "poso" | "granoMolido" | "cafe" | "taza" tipo
-programa ::= { declaracion_global | declaracion_funcion } declaracion_chorreador
+programa ::= declaracion_global programa | "barista" continuacion_barista
+continuacion_barista ::= declaracion_funcion programa | declaracion_chorreador
 declaracion_global ::= "cafeteria" tipo identificador [ "=" expresion ] ";"
-declaracion_funcion ::= "barista" identificador "(" [ parametros ] ")" bloque
-declaracion_chorreador ::= "barista" "chorreador" "(" ")" bloque
+declaracion_funcion ::= identificador "(" [ parametros ] ")" bloque
+declaracion_chorreador ::= "chorreador" "(" ")" bloque
 parametros ::= parametro { "," parametro }
 parametro ::= tipo identificador
 argumentos ::= expresion { "," expresion }
