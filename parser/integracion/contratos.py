@@ -1,8 +1,4 @@
-"""Interfaz propuesta para parser y ASA. No contiene un analizador sintactico.
-
-Los nodos representan estructura y lexemas; no contienen tipos inferidos,
-resultados de evaluacion, simbolos resueltos ni instrucciones generadas.
-"""
+"""Nodos del ASA y datos que completara el verificador."""
 
 from dataclasses import dataclass, field
 from enum import Enum
@@ -65,12 +61,23 @@ class ClaseNodo(str, Enum):
     LISTA = "Lista"
 
 
+@dataclass
+class DatosSemanticos:
+    """Tipo y referencias a declaraciones. El parser los deja vacios."""
+
+    tipo_inferido: Optional[str] = None
+    definiciones: dict[str, "NodoASA"] = field(default_factory=dict)
+
+
 @dataclass(frozen=True)
 class NodoASA:
     clase: ClaseNodo
     rango: RangoFuente
     atributos: Mapping[str, str] = field(default_factory=dict)
     hijos: Tuple["NodoASA", ...] = ()
+    semantica: DatosSemanticos = field(
+        default_factory=DatosSemanticos, compare=False, repr=False
+    )
 
     def __post_init__(self) -> None:
         # Copias defensivas: el renderer no debe modificar el arbol del parser.
@@ -85,7 +92,7 @@ class NodoASA:
         object.__setattr__(self, "hijos", tuple(self.hijos))
 
     def a_dict(self) -> dict:
-        """Estructura serializable con json.dumps(..., ensure_ascii=False)."""
+        """Serializa solo la estructura; omite referencias semanticas ciclicas."""
         return {
             "clase": self.clase.value,
             "rango": {
