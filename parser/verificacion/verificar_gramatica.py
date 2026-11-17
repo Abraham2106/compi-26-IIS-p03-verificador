@@ -15,9 +15,7 @@ def main():
         "y recursion izquierda: OK"
     )
     print('Conflictos LL(1):', gramatica.conflictos)
-    assert len(gramatica.conflictos) == 1, gramatica.conflictos
-    assert gramatica.conflictos[0][0] == 'programa'
-    assert gramatica.conflictos[0][4] == ['BARISTA']
+    assert not gramatica.conflictos, gramatica.conflictos
     for path in sorted((ROOT / 'parser/ejemplos_completos').glob('*.qc')):
         entrada = explorar_para_parser(path.read_text(encoding='utf-8-sig'))
         assert entrada.apta and gramatica.acepta(entrada.tokens), path.name
