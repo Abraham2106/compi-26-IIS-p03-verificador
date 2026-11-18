@@ -19,3 +19,14 @@ Prueba propia: un archivo con `grano x = "hola" ;` y `y = 1 ;` dentro de
 Constantes en `parser/semantica/errores_semanticos.py`:
 `MOSTRAR_FRAGMENTO = False` quita la linea de codigo y el `^`;
 `LIMITE_ERRORES = 1` muestra solo el primer error. Restaurar a `True` y `None`.
+
+## 1.5.2 Probar ambitos y niveles
+ 
+| # | Comando | Resultado esperado |
+| --- | --- | --- |
+| 1 | `python -m unittest parser.verificacion.test_ambitos -v` | 39 pruebas, `OK (expected failures=3)` |
+| 2 | `python -m parser.semantica parser/ejemplos_semanticos/E03_fuera_de_ambito.qc` | `'interna'` (7:5) y `'d'` (11:12) no declarados |
+| 3 | `python -m parser.semantica parser/ejemplos_semanticos/E02_redeclarado.qc` | `'a'` (4:24) y `'x'` (10:5) ya declarados |
+ 
+Las 3 pruebas `x` son huecos conocidos (funcion como valor, asignar a una
+funcion, parametro redeclarado).
