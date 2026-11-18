@@ -1,6 +1,6 @@
 """Analisis semantico completo: identificadores + tipos + reporte.
 
-La tabla de simbolos real es el punto 1.2 (Andres). Mientras no este
+La tabla de simbolos real es el punto 1.2. Mientras no este
 integrada, TablaAmbitos cumple el mismo contrato de cuatro operaciones
 (resolver, declarar, entrar, salir); para cambiarla, basta pasar otra tabla
 a verificar_semantica o cambiar FABRICA_TABLA.

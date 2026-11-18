@@ -30,3 +30,13 @@ Constantes en `parser/semantica/errores_semanticos.py`:
  
 Las 3 pruebas `x` son huecos conocidos (funcion como valor, asignar a una
 funcion, parametro redeclarado).
+
+## 1.5.3 Ejecutar ejemplos
+ 
+| # | Comando | Resultado esperado |
+| --- | --- | --- |
+| 1 | `python -m unittest parser.verificacion.test_ejemplos_semanticos -v` | 4 pruebas, `OK` |
+| 2 | Para cada `parser/ejemplos_completos/*.qc`: `python -m parser.semantica <archivo>` | Los 8 dicen `verificacion semantica correcta` |
+| 3 | Para cada `parser/ejemplos_semanticos/E01` a `E10`: `python -m parser.semantica <archivo>` | Los errores listados en `parser/ejemplos_semanticos/casos.json` |
+ 
+Evidencia ya generada: `docs/Evidencia/semantica_ejemplos.txt`.
