@@ -1,0 +1,173 @@
+$ python -m parser.semantica parser/ejemplos_completos/01_ejercicio.qc
+parser/ejemplos_completos/01_ejercicio.qc: verificacion semantica correcta
+[codigo de salida: 0]
+
+$ python -m parser.semantica parser/ejemplos_completos/02_ejercicio.qc
+parser/ejemplos_completos/02_ejercicio.qc: verificacion semantica correcta
+[codigo de salida: 0]
+
+$ python -m parser.semantica parser/ejemplos_completos/03_ejercicio.qc
+parser/ejemplos_completos/03_ejercicio.qc: verificacion semantica correcta
+[codigo de salida: 0]
+
+$ python -m parser.semantica parser/ejemplos_completos/04_ejercicio.qc
+parser/ejemplos_completos/04_ejercicio.qc: verificacion semantica correcta
+[codigo de salida: 0]
+
+$ python -m parser.semantica parser/ejemplos_completos/05_ejercicio.qc
+parser/ejemplos_completos/05_ejercicio.qc: verificacion semantica correcta
+[codigo de salida: 0]
+
+$ python -m parser.semantica parser/ejemplos_completos/06_cuantica.qc
+parser/ejemplos_completos/06_cuantica.qc: verificacion semantica correcta
+[codigo de salida: 0]
+
+$ python -m parser.semantica parser/ejemplos_completos/07_ajustes.qc
+parser/ejemplos_completos/07_ajustes.qc: verificacion semantica correcta
+[codigo de salida: 0]
+
+$ python -m parser.semantica parser/ejemplos_completos/08_asa_manual.qc
+parser/ejemplos_completos/08_asa_manual.qc: verificacion semantica correcta
+[codigo de salida: 0]
+
+$ python -m parser.semantica parser/ejemplos_semanticos/E01_no_declarado.qc
+parser/ejemplos_semanticos/E01_no_declarado.qc:4:21: error semantico: identificador 'extra' no declarado
+        total = total + extra ;
+                        ^
+parser/ejemplos_semanticos/E01_no_declarado.qc:5:5: error semantico: identificador 'calcular' no declarado
+        calcular(total) ;
+        ^
+2 errores semanticos
+[codigo de salida: 1]
+
+$ python -m parser.semantica parser/ejemplos_semanticos/E02_redeclarado.qc
+parser/ejemplos_semanticos/E02_redeclarado.qc:4:24: error semantico: identificador 'a' ya declarado en este ambito
+    barista sumar(grano a, grano a) {
+                           ^
+parser/ejemplos_semanticos/E02_redeclarado.qc:10:5: error semantico: identificador 'x' ya declarado en este ambito
+        grano x = 2 ;
+        ^
+2 errores semanticos
+[codigo de salida: 1]
+
+$ python -m parser.semantica parser/ejemplos_semanticos/E03_fuera_de_ambito.qc
+parser/ejemplos_semanticos/E03_fuera_de_ambito.qc:7:5: error semantico: identificador 'interna' no declarado
+        interna = 5 ;
+        ^
+parser/ejemplos_semanticos/E03_fuera_de_ambito.qc:11:12: error semantico: identificador 'd' no declarado
+        servir(d) ;
+               ^
+2 errores semanticos
+[codigo de salida: 1]
+
+$ python -m parser.semantica parser/ejemplos_semanticos/E04_tipo_asignacion.qc
+parser/ejemplos_semanticos/E04_tipo_asignacion.qc:3:5: error semantico: no se puede asignar un valor de tipo granoMolido a una variable de tipo grano
+        grano edad = "veinte" ;
+        ^
+parser/ejemplos_semanticos/E04_tipo_asignacion.qc:4:5: error semantico: no se puede asignar un valor de tipo grano a una variable de tipo granoMolido
+        granoMolido nombre = 5 ;
+        ^
+parser/ejemplos_semanticos/E04_tipo_asignacion.qc:5:5: error semantico: no se puede asignar un valor de tipo grano a una variable de tipo cafe
+        cafe listo = 1 + 2 ;
+        ^
+parser/ejemplos_semanticos/E04_tipo_asignacion.qc:7:5: error semantico: no se puede asignar un valor de tipo poso a una variable de tipo grano
+        n = 2.5 ;
+        ^
+4 errores semanticos
+[codigo de salida: 1]
+
+$ python -m parser.semantica parser/ejemplos_semanticos/E05_operacion_invalida.qc
+parser/ejemplos_semanticos/E05_operacion_invalida.qc:3:21: error semantico: no se puede aplicar '+' a los tipos granoMolido y grano
+        granoMolido a = "hola" + 5 ;
+                        ^
+parser/ejemplos_semanticos/E05_operacion_invalida.qc:4:14: error semantico: no se puede aplicar 'SinAzucar' a los tipos cafe y grano
+        cafe b = fuerte SinAzucar 3 ;
+                 ^
+parser/ejemplos_semanticos/E05_operacion_invalida.qc:5:14: error semantico: no se puede aplicar 'Amargo' al tipo grano
+        cafe c = Amargo 7 ;
+                 ^
+parser/ejemplos_semanticos/E05_operacion_invalida.qc:6:21: error semantico: no se puede aplicar '-' al tipo granoMolido
+        granoMolido d = -"hola" ;
+                        ^
+4 errores semanticos
+[codigo de salida: 1]
+
+$ python -m parser.semantica parser/ejemplos_semanticos/E06_llamadas.qc
+parser/ejemplos_semanticos/E06_llamadas.qc:7:15: error semantico: la funcion 'doble' requiere 1 argumento(s), pero recibio 0
+        grano a = doble() ;
+                  ^
+parser/ejemplos_semanticos/E06_llamadas.qc:8:15: error semantico: argumento 1 de 'doble': se esperaba grano, pero se recibio granoMolido
+        grano b = doble("tres") ;
+                  ^
+parser/ejemplos_semanticos/E06_llamadas.qc:9:15: error semantico: la funcion 'doble' requiere 1 argumento(s), pero recibio 2
+        grano c = doble(1, 2) ;
+                  ^
+parser/ejemplos_semanticos/E06_llamadas.qc:10:5: error semantico: leer no recibe argumentos
+        leer(5) ;
+        ^
+parser/ejemplos_semanticos/E06_llamadas.qc:11:5: error semantico: servir requiere exactamente un argumento
+        servir() ;
+        ^
+5 errores semanticos
+[codigo de salida: 1]
+
+$ python -m parser.semantica parser/ejemplos_semanticos/E07_condiciones.qc
+parser/ejemplos_semanticos/E07_condiciones.qc:4:5: error semantico: hierve requiere una condicion de tipo cafe, pero recibio grano
+        hierve (n) {
+        ^
+parser/ejemplos_semanticos/E07_condiciones.qc:7:5: error semantico: chorreando requiere una condicion de tipo cafe, pero recibio grano
+        chorreando (n + 1) {
+        ^
+2 errores semanticos
+[codigo de salida: 1]
+
+$ python -m parser.semantica parser/ejemplos_semanticos/E08_listas.qc
+parser/ejemplos_semanticos/E08_listas.qc:3:25: error semantico: elementos de lista incompatibles: grano y granoMolido
+        taza grano mezcla = [1, "dos"] ;
+                            ^
+parser/ejemplos_semanticos/E08_listas.qc:5:5: error semantico: no se puede usar granoMolido en insertar de una lista de grano
+        nums.insertar("tres") ;
+        ^
+parser/ejemplos_semanticos/E08_listas.qc:7:5: error semantico: 'x' no es una lista (tipo grano)
+        x.insertar(1) ;
+        ^
+parser/ejemplos_semanticos/E08_listas.qc:8:5: error semantico: tipo incompatible en recolar: la lista contiene grano, pero la variable es granoMolido
+        recolar (granoMolido s en nums) {
+        ^
+4 errores semanticos
+[codigo de salida: 1]
+
+$ python -m parser.semantica parser/ejemplos_semanticos/E09_cuantica.qc
+parser/ejemplos_semanticos/E09_cuantica.qc:4:5: error semantico: identificador 'q0' ya declarado en este ambito
+        qubit q0 ;
+        ^
+parser/ejemplos_semanticos/E09_cuantica.qc:6:7: error semantico: la compuerta H requiere un qubit, pero recibio grano
+        H(n) ;
+          ^
+parser/ejemplos_semanticos/E09_cuantica.qc:7:14: error semantico: identificador 'q9' no declarado
+        CNOT(q0, q9) ;
+                 ^
+parser/ejemplos_semanticos/E09_cuantica.qc:8:14: error semantico: medir requiere un qubit, pero recibio grano
+        cafe r = medir(n) ;
+                 ^
+4 errores semanticos
+[codigo de salida: 1]
+
+$ python -m parser.semantica parser/ejemplos_semanticos/E10_varios_errores.qc
+parser/ejemplos_semanticos/E10_varios_errores.qc:2:1: error semantico: no se puede asignar un valor de tipo granoMolido a una variable de tipo grano
+    cafeteria grano meta = "cien" ;
+    ^
+parser/ejemplos_semanticos/E10_varios_errores.qc:5:18: error semantico: identificador 'paso' no declarado
+        degustar v + paso ;
+                     ^
+parser/ejemplos_semanticos/E10_varios_errores.qc:10:5: error semantico: chorreando requiere una condicion de tipo cafe, pero recibio grano
+        chorreando (acum) {
+        ^
+parser/ejemplos_semanticos/E10_varios_errores.qc:11:16: error semantico: argumento 1 de 'incrementar': se esperaba grano, pero se recibio granoMolido
+            acum = incrementar("a") ;
+                   ^
+parser/ejemplos_semanticos/E10_varios_errores.qc:13:5: error semantico: identificador 'resultado' no declarado
+        resultado = acum ;
+        ^
+5 errores semanticos
+[codigo de salida: 1]
