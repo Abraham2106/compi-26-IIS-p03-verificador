@@ -1,0 +1,192 @@
+{
+ "E01_no_declarado.qc": [
+  [
+   4,
+   21,
+   "'extra' no declarado"
+  ],
+  [
+   5,
+   5,
+   "'calcular' no declarado"
+  ]
+ ],
+ "E02_redeclarado.qc": [
+  [
+   4,
+   24,
+   "'a' ya declarado"
+  ],
+  [
+   10,
+   5,
+   "'x' ya declarado"
+  ]
+ ],
+ "E03_fuera_de_ambito.qc": [
+  [
+   7,
+   5,
+   "'interna' no declarado"
+  ],
+  [
+   11,
+   12,
+   "'d' no declarado"
+  ]
+ ],
+ "E04_tipo_asignacion.qc": [
+  [
+   3,
+   5,
+   "granoMolido a una variable de tipo grano"
+  ],
+  [
+   4,
+   5,
+   "grano a una variable de tipo granoMolido"
+  ],
+  [
+   5,
+   5,
+   "grano a una variable de tipo cafe"
+  ],
+  [
+   7,
+   5,
+   "poso a una variable de tipo grano"
+  ]
+ ],
+ "E05_operacion_invalida.qc": [
+  [
+   3,
+   21,
+   "'+' a los tipos granoMolido y grano"
+  ],
+  [
+   4,
+   14,
+   "'SinAzucar'"
+  ],
+  [
+   5,
+   14,
+   "'Amargo' al tipo grano"
+  ],
+  [
+   6,
+   21,
+   "'-' al tipo granoMolido"
+  ]
+ ],
+ "E06_llamadas.qc": [
+  [
+   7,
+   15,
+   "requiere 1 argumento(s), pero recibio 0"
+  ],
+  [
+   8,
+   15,
+   "argumento 1 de 'doble'"
+  ],
+  [
+   9,
+   15,
+   "requiere 1 argumento(s), pero recibio 2"
+  ],
+  [
+   10,
+   5,
+   "leer no recibe argumentos"
+  ],
+  [
+   11,
+   5,
+   "servir requiere exactamente"
+  ]
+ ],
+ "E07_condiciones.qc": [
+  [
+   4,
+   5,
+   "hierve requiere"
+  ],
+  [
+   7,
+   5,
+   "chorreando requiere"
+  ]
+ ],
+ "E08_listas.qc": [
+  [
+   3,
+   25,
+   "elementos de lista incompatibles"
+  ],
+  [
+   5,
+   5,
+   "insertar de una lista de grano"
+  ],
+  [
+   7,
+   5,
+   "'x' no es una lista"
+  ],
+  [
+   8,
+   5,
+   "tipo incompatible en recolar"
+  ]
+ ],
+ "E09_cuantica.qc": [
+  [
+   4,
+   5,
+   "'q0' ya declarado"
+  ],
+  [
+   6,
+   7,
+   "compuerta H requiere un qubit"
+  ],
+  [
+   7,
+   14,
+   "'q9' no declarado"
+  ],
+  [
+   8,
+   14,
+   "medir requiere un qubit"
+  ]
+ ],
+ "E10_varios_errores.qc": [
+  [
+   2,
+   1,
+   "no se puede asignar"
+  ],
+  [
+   5,
+   18,
+   "'paso' no declarado"
+  ],
+  [
+   10,
+   5,
+   "chorreando requiere"
+  ],
+  [
+   11,
+   16,
+   "argumento 1 de 'incrementar'"
+  ],
+  [
+   13,
+   5,
+   "'resultado' no declarado"
+  ]
+ ]
+}
