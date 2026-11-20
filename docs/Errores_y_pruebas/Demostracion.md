@@ -57,8 +57,9 @@ correcto. La salida completa de los 18 ejemplos esta en
 Codigo: `parser/semantica/analisis.py` (`verificar_semantica`) y
 `parser/semantica/__main__.py` (linea de comandos).
 
-## Pendientes de integracion
+## Tabla de simbolos
 
-- Por el momento se usa `TablaAmbitos` (`parser/semantica/analisis.py`), que cumple el
-  mismo contrato que la tabla de simbolos. Al integrar la real, cambiar
-  `FABRICA_TABLA` y repetir `test_ambitos.py`.
+La tabla provisional `TablaAmbitos` fue reemplazada por `TablaSimbolos`
+(`parser/semantica/tabla_simbolos.py`), ya integrada en `FABRICA_TABLA`.
+Para ver sus cambios: `python -m parser.semantica programa.qc --tabla`.
+Detalle en `docs/Tabla_de_simbolos.md`.

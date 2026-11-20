@@ -1,14 +1,15 @@
 """Pruebas de ambitos y niveles de anidamiento (1.5.2).
 
-Usan verificar_semantica con la tabla de FABRICA_TABLA. Al integrar la tabla
-de simbolos real (1.2), basta cambiar esa fabrica y repetir estas pruebas.
+Usan verificar_semantica con la tabla de FABRICA_TABLA (la tabla de simbolos
+de 1.2).
 """
 
 import unittest
 
 from parser.analizador import Analizador
 from parser.integracion import explorar_para_parser
-from parser.semantica.analisis import TablaAmbitos, verificar_semantica
+from parser.semantica.analisis import verificar_semantica
+from parser.semantica.tabla_simbolos import TablaSimbolos
 
 
 def verificar(fuente, tabla=None):
@@ -22,7 +23,7 @@ def principal(cuerpo):
     return f"barista chorreador() {{ {cuerpo} }}"
 
 
-class TablaEspia(TablaAmbitos):
+class TablaEspia(TablaSimbolos):
     """Tabla que registra cuantos ambitos se abren a la vez."""
 
     def __init__(self):
@@ -32,9 +33,10 @@ class TablaEspia(TablaAmbitos):
         self.nivel_maximo = 0
 
     def entrar(self):
-        super().entrar()
+        ambito = super().entrar()
         self.entradas += 1
         self.nivel_maximo = max(self.nivel_maximo, self.nivel)
+        return ambito
 
     def salir(self):
         super().salir()
@@ -297,11 +299,15 @@ class TestLimitesConocidos(unittest.TestCase):
             "barista f() { degustar 1; } " + principal("f = 3;"))
         self.assertTrue(errores)
 
-    @unittest.expectedFailure
+
+class TestLimitesCorregidos(unittest.TestCase):
+    """Antes era fallo esperado; lo corrige la tabla de simbolos (1.2.2)."""
+
     def test_parametro_redeclarado_en_el_cuerpo(self):
         errores = verificar(
             "barista f(grano a) { grano a = 1; } " + principal(""))
-        self.assertTrue(errores)
+        self.assertEqual(len(errores), 1)
+        self.assertIn("'a' ya declarado", errores[0].mensaje)
 
 
 if __name__ == "__main__":

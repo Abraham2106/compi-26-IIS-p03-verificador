@@ -12,6 +12,8 @@ from parser.analizador import Analizador
 from parser.integracion import explorar_para_parser
 from parser.semantica.analisis import verificar_semantica
 from parser.semantica.errores_semanticos import reportar
+from parser.semantica.impresion_tabla import imprimir_cambios
+from parser.semantica.tabla_simbolos import TablaSimbolos
 
 
 def main():
@@ -19,7 +21,11 @@ def main():
         description="Verificador semantico de Quantum Coffee"
     )
     argumentos.add_argument("archivo", type=Path)
-    ruta = argumentos.parse_args().archivo
+    argumentos.add_argument(
+        "--tabla", action="store_true",
+        help="imprime los cambios de la tabla de simbolos y la tabla final")
+    opciones = argumentos.parse_args()
+    ruta = opciones.archivo
     try:
         fuente = ruta.read_text(encoding="utf-8-sig")
     except (OSError, UnicodeError) as error:
@@ -38,7 +44,11 @@ def main():
         )
     if not resultado.correcto:
         return 1
-    errores = verificar_semantica(resultado.arbol)
+    tabla = TablaSimbolos()
+    errores = verificar_semantica(resultado.arbol, tabla)
+    if opciones.tabla:
+        imprimir_cambios(tabla)
+        print()
     if reportar(errores, str(ruta), fuente):
         return 1
     print(f"{ruta}: verificacion semantica correcta")
