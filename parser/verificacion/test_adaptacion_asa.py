@@ -52,3 +52,14 @@ class TestAdaptacionASA(unittest.TestCase):
         asignacion.semantica.definiciones.update(nombre=x, lista=y)
         self.assertIs(asignacion.semantica.definiciones['nombre'], x)
         self.assertIs(asignacion.semantica.definiciones['lista'], y)
+
+    def test_impresion_decorada_incluye_tipo_y_definicion(self):
+        x, _, asignacion = self.locales
+        x.semantica.tipo_inferido = "grano"
+        asignacion.semantica.tipo_inferido = "grano"
+        asignacion.semantica.definiciones["nombre"] = x
+
+        texto = a_texto(self.arbol, con_semantica=True)
+
+        self.assertIn("decorado=[tipo=grano;", texto)
+        self.assertIn("nombre=def:DeclaracionLocal:x@", texto)

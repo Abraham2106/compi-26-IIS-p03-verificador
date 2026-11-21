@@ -6,6 +6,10 @@ from collections.abc import Callable
 from parser.integracion import ClaseNodo, NodoASA
 from parser.semantica.visitante import VisitanteASA
 FUNCIONES_INCORPORADAS = frozenset({"servir", "leer"})
+CLASES_VARIABLES = frozenset({
+    ClaseNodo.GLOBAL, ClaseNodo.LOCAL, ClaseNodo.PARAMETRO,
+    ClaseNodo.PARA_CADA, ClaseNodo.QUBIT,
+})
 
 class VerificadorIdentificadores(VisitanteASA):
 
@@ -44,6 +48,7 @@ class VerificadorIdentificadores(VisitanteASA):
         nodo: NodoASA,
         nombre: str,
         atributo: str = "nombre",
+        exigir_variable: bool = False,
     ) -> None:
         definicion = self.resolver(nombre)
 
@@ -53,6 +58,14 @@ class VerificadorIdentificadores(VisitanteASA):
                 f"Linea {posicion.linea}, "
                 f"columna {posicion.columna}: "
                 f"identificador '{nombre}' no declarado"
+            )
+            return
+
+        if exigir_variable and definicion.clase not in CLASES_VARIABLES:
+            posicion = nodo.rango.inicio
+            self.errores.append(
+                f"Linea {posicion.linea}, columna {posicion.columna}: "
+                f"'{nombre}' no es una variable"
             )
             return
 
@@ -95,12 +108,14 @@ class VerificadorIdentificadores(VisitanteASA):
         self._verificar_nombre(
             nodo,
             nodo.atributos["nombre"],
+            exigir_variable=True,
         )
 
     def visitar_asignacion(self, nodo: NodoASA) -> None:
         self._verificar_nombre(
             nodo,
             nodo.atributos["nombre"],
+            exigir_variable=True,
         )
         self.visitar_hijos(nodo)
 
@@ -127,6 +142,7 @@ class VerificadorIdentificadores(VisitanteASA):
             nodo,
             nodo.atributos["receptor"],
             "receptor",
+            exigir_variable=True,
         )
         self.visitar_hijos(nodo)
 
@@ -134,7 +150,7 @@ class VerificadorIdentificadores(VisitanteASA):
     def visitar_para_cada(self, nodo: NodoASA) -> None:
 
         lista = nodo.atributos["lista"]
-        self._verificar_nombre(nodo, lista, "lista")
+        self._verificar_nombre(nodo, lista, "lista", exigir_variable=True)
 
         if self.entrar_ambito is not None:
             self.entrar_ambito()

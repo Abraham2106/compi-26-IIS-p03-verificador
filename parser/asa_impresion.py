@@ -1,3 +1,4 @@
+import sys
 from typing import Iterator, List, Optional, TextIO, Tuple
 
 from parser.integracion import ClaseNodo, NodoASA
@@ -27,15 +28,33 @@ def _escapar(texto: str) -> str:
     return texto.replace("\\", "\\\\").replace('"', '\\"')
 
 
-def contenido_y_atributos(nodo: NodoASA) -> Tuple[str, str]:
+def contenido_y_atributos(
+    nodo: NodoASA, con_semantica: bool = False,
+) -> Tuple[str, str]:
     clave = CLAVE_CONTENIDO.get(nodo.clase, CLAVE_CONTENIDO_POR_DEFECTO)
     contenido = nodo.atributos.get(clave, "")
     resto = [f"{k}={v}" for k, v in nodo.atributos.items() if k != clave]
+    if con_semantica:
+        decorado = []
+        tipo = nodo.semantica.tipo_inferido
+        if tipo is not None and nodo.atributos.get("tipo") != tipo:
+            decorado.append(f"tipo={tipo}")
+        for papel, definicion in sorted(nodo.semantica.definiciones.items()):
+            p = definicion.rango.inicio
+            nombre = definicion.atributos.get("nombre", "")
+            decorado.append(
+                f"{papel}=def:{definicion.clase.value}:{nombre}"
+                f"@{p.linea}:{p.columna}"
+            )
+        if decorado:
+            resto.append("decorado=[" + "; ".join(decorado) + "]")
     return contenido, ", ".join(resto)
 
 
-def formatear_nodo(nodo: NodoASA, con_rango: bool = False) -> str:
-    contenido, atributos = contenido_y_atributos(nodo)
+def formatear_nodo(
+    nodo: NodoASA, con_rango: bool = False, con_semantica: bool = False,
+) -> str:
+    contenido, atributos = contenido_y_atributos(nodo, con_semantica)
     if con_rango:
         r = nodo.rango
         extra = f"rango={
@@ -49,27 +68,32 @@ def formatear_nodo(nodo: NodoASA, con_rango: bool = False) -> str:
 
 
 def lineas_preorden(raiz: NodoASA, sangria: Optional[int] = 2,
-                    con_rango: bool = False) -> List[str]:
+                    con_rango: bool = False,
+                    con_semantica: bool = False) -> List[str]:
     """
     Una linea por nodo. `sangria` = espacios por nivel; None o 0 = sin
     sangria.
     """
     paso = sangria or 0
-    return [" " * (paso * nivel) + formatear_nodo(nodo, con_rango)
+    return [" " * (paso * nivel)
+            + formatear_nodo(nodo, con_rango, con_semantica)
             for nivel, nodo in recorrer_preorden(raiz)]
 
 
 def a_texto(
         raiz: NodoASA,
         sangria: Optional[int] = 2,
-        con_rango: bool = False) -> str:
-    return "\n".join(lineas_preorden(raiz, sangria, con_rango)) + "\n"
+        con_rango: bool = False,
+        con_semantica: bool = False) -> str:
+    return "\n".join(lineas_preorden(
+        raiz, sangria, con_rango, con_semantica)) + "\n"
 
 
 def imprimir_preorden(
         raiz: NodoASA,
         salida: Optional[TextIO] = None,
         sangria: Optional[int] = 2,
-        con_rango: bool = False) -> None:
-    import sys
-    (salida or sys.stdout).write(a_texto(raiz, sangria, con_rango))
+        con_rango: bool = False,
+        con_semantica: bool = False) -> None:
+    (salida or sys.stdout).write(a_texto(
+        raiz, sangria, con_rango, con_semantica))

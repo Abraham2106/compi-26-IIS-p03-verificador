@@ -13,7 +13,8 @@ Scanner: `python scanner/main.py archivo.qc`
 
 Parser y ASA: `python -m parser archivo.qc`
 
-Tabla de simbolos y sus cambios: `python -m parser.semantica archivo.qc --tabla`
+Verificador, ASA decorado y tabla de simbolos:
+`python -m parser.semantica archivo.qc --tabla`
 (detalle en `docs/Tabla_de_simbolos.md`)
 
 Pruebas: `python -m unittest discover -s parser/verificacion -t . -v`

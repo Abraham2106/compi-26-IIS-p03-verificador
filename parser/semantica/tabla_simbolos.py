@@ -36,6 +36,7 @@ Reglas de ambito:
 
 from dataclasses import dataclass, field
 from enum import Enum
+from collections.abc import Callable
 
 from parser.integracion import ClaseNodo, NodoASA, Posicion
 
@@ -195,6 +196,7 @@ class TablaSimbolos:
         self.ambitos: list[Ambito] = [self.global_]   # Todos, en orden.
         self.conflictos: list[Conflicto] = []
         self.cambios: list[Cambio] = []
+        self.al_cambiar: Callable[[Cambio], None] | None = None
         self.incorporadas = {
             nombre: Simbolo(nombre, Categoria.INCORPORADA, None, None,
                             retorno, parametros)
@@ -210,16 +212,22 @@ class TablaSimbolos:
     def entrar(self) -> Ambito:
         self.actual = Ambito(len(self.ambitos), self.nivel + 1, self.actual)
         self.ambitos.append(self.actual)
-        self.cambios.append(Cambio(TipoCambio.ENTRAR, self.actual))
+        self._anotar_cambio(Cambio(TipoCambio.ENTRAR, self.actual))
         return self.actual
 
     def salir(self) -> None:
         if self.actual.padre is None:
             raise RuntimeError("No se puede salir del ambito global.")
-        self.cambios.append(Cambio(
+        cambio = Cambio(
             TipoCambio.SALIR, self.actual,
-            contenido=tuple(self.actual.simbolos.values())))
+            contenido=tuple(self.actual.simbolos.values()))
         self.actual = self.actual.padre
+        self._anotar_cambio(cambio)
+
+    def _anotar_cambio(self, cambio: Cambio) -> None:
+        self.cambios.append(cambio)
+        if self.al_cambiar is not None:
+            self.al_cambiar(cambio)
 
     # Registro
 
@@ -238,11 +246,11 @@ class TablaSimbolos:
         existente = self.buscar_local(nombre)
         if existente is not None:
             self.conflictos.append(Conflicto(nuevo, existente))
-            self.cambios.append(Cambio(
+            self._anotar_cambio(Cambio(
                 TipoCambio.CONFLICTO, self.actual, nuevo, existente))
             return None
         self.actual.simbolos[nombre] = nuevo
-        self.cambios.append(Cambio(TipoCambio.REGISTRAR, self.actual, nuevo))
+        self._anotar_cambio(Cambio(TipoCambio.REGISTRAR, self.actual, nuevo))
         return nuevo
 
     def declarar(self, nombre: str, nodo: NodoASA) -> bool:

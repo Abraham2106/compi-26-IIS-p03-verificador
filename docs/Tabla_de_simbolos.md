@@ -92,9 +92,10 @@ Las declaraciones rechazadas no aparecen en la tabla; quedan en
 
 La tabla anota en `tabla.cambios` cada operacion, en el orden en que ocurre
 durante el recorrido: `entrar`, `registrar`, `conflicto` (con la declaracion
-previa) y `salir` (con los simbolos que tenia el ambito al cerrarse).
-`impresion_tabla.py` los convierte en texto con sangria por nivel, seguido de
-la tabla final.
+previa) y `salir` (con los simbolos que tenia el ambito al cerrarse). Con
+`--tabla`, el verificador imprime cada cambio en el momento en que sucede,
+junto con el estado parcial visible de los ambitos; al terminar imprime la
+tabla final.
 
 ```
 python -m parser.semantica parser/ejemplos_semanticos/E02_redeclarado.qc --tabla
@@ -120,13 +121,15 @@ Tabla de simbolos final
 ```
 
 Los tipos se escriben al imprimir: por eso las funciones ya muestran el tipo
-de retorno que calculo la inferencia. Sin `--tabla` la salida del verificador
-no cambia. Desde codigo: `imprimir_cambios(tabla)` o
-`cambios_a_texto(tabla)`.
+de retorno que calculo la inferencia. Si la verificacion semantica termina sin
+errores, la salida cierra con el ASA decorado en preorden, incluyendo los
+tipos inferidos y las referencias a las declaraciones. Sin `--tabla` se omite
+el historial de cambios y la tabla final. El callback `al_cambiar` permite
+consumir los eventos mientras se construye la tabla.
 
 ## Casos de test_ambitos.py
 
-De los casos que `test_ambitos.py` tenia como fallo esperado, la tabla
-corrige el parametro redeclarado en el cuerpo de la funcion. Los otros dos
-(funcion usada como variable o asignada) dependen del verificador de
-identificadores y siguen como fallo esperado.
+`test_ambitos.py` verifica que se rechacen parametros redeclarados, funciones
+usadas como variables y asignaciones a nombres de funcion. El verificador
+tambien exige que los nombres usados como lista o destino de asignacion
+resuelvan a una variable.

@@ -280,24 +280,19 @@ class TestNiveles(unittest.TestCase):
         self.assertEqual(tabla.nivel, 0)
 
 
-class TestLimitesConocidos(unittest.TestCase):
-    """Huecos detectados en la verificacion actual (ver Registro_de_defectos).
+class TestCategoriasIdentificadores(unittest.TestCase):
 
-    Estan marcados como fallo esperado: cuando se corrijan, la suite avisara
-    con un exito inesperado y habra que quitar el decorador.
-    """
-
-    @unittest.expectedFailure
     def test_funcion_usada_como_variable(self):
         errores = verificar(
             "barista f() { degustar 1; } " + principal("grano x = f;"))
-        self.assertTrue(errores)
+        self.assertEqual(len(errores), 1)
+        self.assertIn("'f' no es una variable", errores[0].mensaje)
 
-    @unittest.expectedFailure
     def test_asignar_a_una_funcion(self):
         errores = verificar(
             "barista f() { degustar 1; } " + principal("f = 3;"))
-        self.assertTrue(errores)
+        self.assertEqual(len(errores), 1)
+        self.assertIn("'f' no es una variable", errores[0].mensaje)
 
 
 class TestLimitesCorregidos(unittest.TestCase):

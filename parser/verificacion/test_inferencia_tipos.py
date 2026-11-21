@@ -6,10 +6,10 @@ from pathlib import Path
 from parser.analizador import Analizador
 from parser.integracion import explorar_para_parser
 from parser.semantica.inferencia_tipos import InferidorTipos
+from parser.semantica.tabla_simbolos import TablaSimbolos
 from parser.semantica.verificador_identificadores import (
     VerificadorIdentificadores,
 )
-from parser.verificacion.test_identificadores import TablaDePrueba
 
 
 class TestInferenciaTipos(unittest.TestCase):
@@ -18,7 +18,7 @@ class TestInferenciaTipos(unittest.TestCase):
         resultado = Analizador().analizar(entrada.tokens_para_parser())
         self.assertTrue(resultado.correcto, resultado.errores)
         arbol = resultado.arbol
-        tabla = TablaDePrueba()
+        tabla = TablaSimbolos()
         verificador = VerificadorIdentificadores(
             tabla.resolver, tabla.declarar, tabla.entrar, tabla.salir
         )

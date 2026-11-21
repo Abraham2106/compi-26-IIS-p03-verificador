@@ -92,7 +92,7 @@ class NodoASA:
         object.__setattr__(self, "hijos", tuple(self.hijos))
 
     def a_dict(self) -> dict:
-        """Serializa solo la estructura; omite referencias semanticas ciclicas."""
+        """Serializa la estructura y omite referencias semanticas ciclicas."""
         return {
             "clase": self.clase.value,
             "rango": {

@@ -9,10 +9,11 @@ import sys
 from pathlib import Path
 
 from parser.analizador import Analizador
+from parser.asa_impresion import imprimir_preorden
 from parser.integracion import explorar_para_parser
 from parser.semantica.analisis import verificar_semantica
 from parser.semantica.errores_semanticos import reportar
-from parser.semantica.impresion_tabla import imprimir_cambios
+from parser.semantica.impresion_tabla import imprimir_cambio_parcial
 from parser.semantica.tabla_simbolos import TablaSimbolos
 
 
@@ -45,13 +46,19 @@ def main():
     if not resultado.correcto:
         return 1
     tabla = TablaSimbolos()
+    if opciones.tabla:
+        print("Cambios de la tabla de simbolos")
+        tabla.al_cambiar = lambda cambio: imprimir_cambio_parcial(
+            tabla, cambio)
     errores = verificar_semantica(resultado.arbol, tabla)
     if opciones.tabla:
-        imprimir_cambios(tabla)
-        print()
+        print("\nTabla de simbolos final")
+        print(tabla.a_texto(), end="")
     if reportar(errores, str(ruta), fuente):
         return 1
     print(f"{ruta}: verificacion semantica correcta")
+    print("ASA decorado en preorden")
+    imprimir_preorden(resultado.arbol, con_semantica=True)
     return 0
 
 

@@ -1,19 +1,4 @@
-"""Impresion de los cambios de la tabla de simbolos (1.4.1).
-
-La tabla anota cada operacion en `tabla.cambios` mientras el verificador
-recorre el ASA. Este modulo los convierte en texto, uno por linea y con
-sangria segun el nivel del ambito:
-
-     1  registrar  limite: variable global grano (2:1) en ambito 0
-     2  entrar     Ambito 1 (nivel 1, dentro de 0)
-     3    registrar  a: parametro grano (4:15) en ambito 1
-     4    conflicto  a: parametro grano (4:24) ya declarado en 4:15 como
-                     parametro
-     5  salir      Ambito 1: a
-
-Los tipos se muestran al imprimir, no al registrar: si se imprime despues de
-verificar_semantica, las funciones ya muestran su tipo de retorno inferido.
-"""
+"""Impresion del estado de la tabla en cada cambio (1.4.1)."""
 
 import sys
 from typing import TextIO
@@ -21,9 +6,6 @@ from typing import TextIO
 from parser.semantica.tabla_simbolos import (
     Cambio, Simbolo, TablaSimbolos, TipoCambio,
 )
-
-SANGRIA = "  "
-
 
 def _posicion(simbolo: Simbolo) -> str:
     p = simbolo.posicion
@@ -53,32 +35,22 @@ def formatear_cambio(cambio: Cambio) -> str:
     return f"{cambio.tipo.value.ljust(9)}  {detalle}"
 
 
-def _profundidad(cambio: Cambio) -> int:
-    # Entrar y salir se escriben al nivel del ambito que los contiene.
-    if cambio.tipo in (TipoCambio.ENTRAR, TipoCambio.SALIR):
-        return cambio.ambito.nivel - 1
-    return cambio.ambito.nivel
-
-
-def lineas_cambios(tabla: TablaSimbolos) -> list[str]:
-    ancho = len(str(len(tabla.cambios)))
-    return [
-        f"{str(i).rjust(ancho)}  {SANGRIA * _profundidad(cambio)}"
-        f"{formatear_cambio(cambio)}"
-        for i, cambio in enumerate(tabla.cambios, 1)
-    ]
-
-
-def cambios_a_texto(tabla: TablaSimbolos) -> str:
-    lineas = lineas_cambios(tabla) or ["(sin cambios)"]
-    return "\n".join(lineas) + "\n"
-
-
-def imprimir_cambios(tabla: TablaSimbolos,
-                     salida: TextIO | None = None) -> None:
-    """Imprime el historial de cambios y la tabla final."""
+def imprimir_cambio_parcial(
+    tabla: TablaSimbolos,
+    cambio: Cambio,
+    salida: TextIO | None = None,
+) -> None:
+    """Imprime el estado visible justo despues de cada cambio."""
     salida = salida or sys.stdout
-    salida.write("Cambios de la tabla de simbolos\n")
-    salida.write(cambios_a_texto(tabla))
-    salida.write("\nTabla de simbolos final\n")
-    salida.write(tabla.a_texto())
+    salida.write(f"{len(tabla.cambios)}  {formatear_cambio(cambio)}\n")
+    salida.write("    Estado parcial:\n")
+    ambitos = []
+    ambito = tabla.actual
+    while ambito is not None:
+        ambitos.append(ambito)
+        ambito = ambito.padre
+    for ambito in reversed(ambitos):
+        simbolos = "; ".join(
+            _simbolo(simbolo) for simbolo in ambito.simbolos.values()
+        ) or "(vacio)"
+        salida.write(f"    {ambito.describir()}: {simbolos}\n")
