@@ -1,6 +1,6 @@
 # Quantum Coffee
 
-Compilador Quantum Coffee: parser / analizador sintactico y ASA.
+Compilador Quantum Coffee: verificador
 
 Participantes:
 - Abraham Solano Parrales
